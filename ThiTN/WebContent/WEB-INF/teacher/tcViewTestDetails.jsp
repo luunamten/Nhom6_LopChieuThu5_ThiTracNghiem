@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,28 +21,28 @@
 	<c:import url="../common/header.jsp" />
 	<!--Cac tinh nang-->
 	<div id="testing_container" class="row">
-		<div class="col-sm-3">
+		<div class="col-sm-4">
 			<div class="card cs_card">
 				<div class="card-header bg-info text-white">
-					<h4>ENGLISH01_TEST</h4>
+					<h4>${requestScope.test.id} - ${requestScope.test.name}</h4>
 				</div>
 				<div class="card-body cs_card_body">
-					<p id="subject">Môn: Anh văn 1</p>
-					<p id="total_time">Thời gian: 15:00</p>
-					<p id="num_question">Số câu: 15</p>
-					<p id="create_time">Thời gian tạo: 17-11-2017 11:11</p>
-					<p id="start_time">Thời gian bắt đầu: 17-11-2017 13:00</p>
-					<p id="end_time">Thời gian kết thúc: 20-11-2017 07:00</p>
-					<p id="num_sv">Số sinh viên thi: 50</p>
+					<p id="subject"><strong>Môn: </strong> ${requestScope.subject.id } - ${requestScope.subject.name }</p>
+					<p id="total_time"><strong>Thời gian: </strong> ${requestScope.test.duration} phút</p>
+					<p id="num_question"><strong>Số câu: </strong> ${requestScope.test.numQuestion} </p>
+					<p id="create_time"><strong>Thời gian tạo: </strong> ${requestScope.test.birth}</p>
+					<p id="start_time"><strong>Thời gian bắt đầu: </strong> ${requestScope.test.start}</p>
+					<p id="end_time"><strong>Thời gian kết thúc: </strong> ${requestScope.test.end}</p>
+					<p id="num_sv"><strong>Số sinh viên thi: </strong> ${requestScope.test.numStudent} </p>
 				</div>
 				<div class="card-footer">
 					<a href="gv_cacBaiThi.jsp"><button type="button"
-							class="btn btn-block btn-outline-danger" id="back_to_tests"><<
-							Trở về</button></a>
+							class="btn btn-block btn-outline-danger" id="back_to_tests">
+							&lt;&lt; Trở về</button></a>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-8 test_table_container">
+		<div class="col-sm-7 test_table_container">
 			<h1>Các lớp và sinh viên thi</h1>
 			<hr />
 			<div class="card cs_card">
@@ -60,37 +60,25 @@
 						<div class="table-responsive-sm">
 							<table id="sv_table"
 								class="table table-striped table-hover table-bordered">
-								<tr>
-									<th>STT</th>
-									<th>Mã số sinh viên</th>
-									<th>Họ tên</th>
-									<th>Điểm</th>
-									<th>Đã thi</th>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>15110255</td>
-									<td>Lưu Nam</td>
-									<td>10đ</td>
-									<td><span title="xóa" class="material-icons pointer_cur">check_box</span>
-									</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>15110244</td>
-									<td>Văn Chương</td>
-									<td>0đ</td>
-									<td><span title="xóa" class="material-icons pointer_cur">check_box_outline_blank</span>
-									</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>15110204</td>
-									<td>Thế Luân</td>
-									<td>7đ</td>
-									<td><span title="xóa" class="material-icons pointer_cur">check_box</span>
-									</td>
-								</tr>
+								<thead class="thead-dark">
+									<tr>
+										<th>STT</th>
+										<th>Mã số sinh viên</th>
+										<th>Họ tên</th>
+										<th>Điểm</th>
+										<th>Đã thi</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>15110255</td>
+										<td>Lưu Nam</td>
+										<td>10đ</td>
+										<td><span title="xóa" class="material-icons pointer_cur">check_box</span>
+										</td>
+									</tr>
+								</tbody>
 							</table>
 						</div>
 						<!--hidden element for holding table data-->

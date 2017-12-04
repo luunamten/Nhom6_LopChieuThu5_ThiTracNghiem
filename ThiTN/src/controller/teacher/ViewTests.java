@@ -91,12 +91,16 @@ public class ViewTests extends HttpServlet {
 			if(user != null) {
 				String semesterID = request.getParameter("select_semester");
 				String subjectID = request.getParameter("select_subject");
+				String subjectName = request.getParameter("subjectName");
 				String searchString = request.getParameter("searchTxt");
 				boolean isError = false;
 				if(semesterID == null || semesterID.trim().length() == 0) {
 					isError = true;
 				}
 				if(subjectID == null || subjectID.trim().length() == 0) {
+					isError = true;
+				}
+				if(subjectName == null || subjectName.trim().length() == 0) {
 					isError = true;
 				}
 				if(searchString == null) {
@@ -108,9 +112,11 @@ public class ViewTests extends HttpServlet {
 					viewTest.setSemesterID(semesterID);
 					viewTest.setTeacherID(user.getUsername());
 					viewTest.setSubjectID(subjectID);
+					viewTest.setSubjectName(subjectName);
 					viewTest.setSearchString(searchString);
 					tests = this.getTests(viewTest);
 					request.setAttribute("tests", tests);
+					request.setAttribute("viewTest", viewTest);
 					request.getRequestDispatcher("WEB-INF/teacher/tcTestTableRows.jsp").forward(request, response);
 				}
 			}

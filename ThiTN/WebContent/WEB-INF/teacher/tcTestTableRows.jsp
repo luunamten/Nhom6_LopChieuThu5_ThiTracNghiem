@@ -3,17 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:if test="${not empty requestScope.tests }">
 	<c:set var="count" value="${requestScope.tests.size()-1}" />
+	<c:set var="viewTest" value="${requestScope.viewTest}" />
 	<c:forEach var="i" begin="0" end="${count}">
+		<c:set var="id" value="${requestScope.tests[i].id}" />
 		<tr>
 			<td>${i+1}</td>
-			<td>${requestScope.tests[i].id}</td>
+			<td>${id}</td>
 			<td>${requestScope.tests[i].name}</td>
 			<td>${requestScope.tests[i].start}</td>
 			<td>${requestScope.tests[i].end}</td>
 			<td>
 				<span title="xóa" class="material-icons pointer_cur delete_q">delete</span>
 				<span title="chỉnh sửa" class="material-icons pointer_cur edit_q">border_color</span>
-				<span title="Chi tiết" class="material-icons pointer_cur"> remove_red_eye </span>
+				<a title="Chi tiết" class="material-icons pointer_cur non_link"
+					 href="ViewTestDetails?smid=${viewTest.semesterID}&suid=${viewTest.subjectID}&tid=${id}&tname=${viewTest.subjectName}">
+					remove_red_eye
+				</a> 
 			</td>
 		</tr>
 	</c:forEach>

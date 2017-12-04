@@ -83,24 +83,24 @@ public class ChangePass extends HttpServlet {
 				StringBuilder errors = new StringBuilder();
 				if(oldPass == null || oldPass.trim().length() < 1) {
 					isError = true;
-					errors.append("> Mật khẩu cũ phải tối thiểu 1 kí tự.");
+					errors.append("> Mật khẩu cũ phải tối thiểu 1 kí tự.<br />");
 				} else if(!oldBean.getPassword().equals(oldPass)) {
 					isError = true;
-					errors.append("> Mật khẩu cũ sai.");
+					errors.append("> Mật khẩu cũ sai.<br />");
 				}
 
 				if(newPass == null || newPass.trim().length() < 1) {
 					isError = true;
-					errors.append("> Mật khẩu mới phải tối thiểu 1 kí tự.");
+					errors.append("> Mật khẩu mới phải tối thiểu 1 kí tự.<br />");
 				}
 				if(reNewPass == null || reNewPass.trim().length() < 1) {
 					isError = true;
-					errors.append("> Nhập lại mật khẩu phải tối thiểu 1 kí tự.");
+					errors.append("> Nhập lại mật khẩu phải tối thiểu 1 kí tự.<br />");
 				}
 				
 				if(!newPass.equals(reNewPass)) {
 					isError = true;
-					errors.append("> Nhập lại mật khẩu mới không trùng khớp.");
+					errors.append("> Nhập lại mật khẩu mới không trùng khớp.<br />");
 				}
 				
 				if(!isError) {

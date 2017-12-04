@@ -60,7 +60,7 @@
 				<div class="form-group">
 					<label for="phoneNumberTxt">Số điện thoại mới</label> <input
 						type="text" id="phoneNumberTxt" name="phoneNumberTxt"
-						class="form-control" />
+						class="form-control" required/>
 				</div>
 				<div class="form-group">
 					<input type="submit" class="form-control btn btn-primary btn-block"
@@ -74,7 +74,7 @@
 			<form method="post" action="${param.cEmailTarget}">
 				<div class="form-group">
 					<label for="emailTxt">Email mới</label> <input type="text"
-						id="emailTxt" name="emailTxt" class="form-control" />
+						id="emailTxt" name="emailTxt" class="form-control" required />
 				</div>
 				<div class="form-group">
 					<input type="submit" class="form-control btn btn-primary btn-block"
@@ -88,17 +88,17 @@
 			<form method="post" action="${param.cPassTarget}">
 				<div class="form-group">
 					<label for="oldPassTxt">Mật khẩu cũ:</label> <input type="password"
-						id="oldPassTxt" name="oldPassTxt" class="form-control" />
+						id="oldPassTxt" name="oldPassTxt" class="form-control" required />
 				</div>
 				<div class="form-group">
 					<label for="newPassTxt">Mật khẩu mới:</label> <input
 						type="password" id="newPassTxt" name="newPassTxt"
-						class="form-control" />
+						class="form-control" required />
 				</div>
 				<div class="form-group">
 					<label for="reNewPassTxt">Nhập lại mật khẩu mới:</label> <input
 						type="password" id="reNewPassTxt" name="reNewPassTxt"
-						class="form-control" />
+						class="form-control" required />
 				</div>
 				<hr />
 				<div class="form-group">

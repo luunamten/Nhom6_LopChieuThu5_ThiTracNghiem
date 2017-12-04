@@ -28,6 +28,10 @@
 		<!--test-->
 		<div class="col-sm-9 test_table_container">
 			<h1>Các bài thi</h1>
+			<div id="report_result">
+				<c:import url="../common/ReportSuccess.jsp" />
+				<c:import url="../common/ReportErrors.jsp" />
+			</div>
 			<hr />
 			<div class="card cs_card">
 				<div class="card-body cs_card_body">
@@ -82,16 +86,6 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>ENGLISh_TEST01</td>
-										<td>2017-11-11 7:00</td>
-										<td>2017-11-11 13:00</td>
-										<td><span title="xóa" class="material-icons pointer_cur">delete</span>
-											<span title="chỉnh sửa" class="material-icons pointer_cur">border_color</span>
-											<a href="gv_deThiChiTiet.jsp"><span title="Chi tiết"
-												class="material-icons pointer_cur"> remove_red_eye </span> </a></td>
-									</tr>
 								</tbody>
 							</table>
 						</div>

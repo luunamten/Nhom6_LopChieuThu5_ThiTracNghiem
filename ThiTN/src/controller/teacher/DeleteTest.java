@@ -15,20 +15,20 @@ import javax.servlet.http.HttpSession;
 
 import dao.DBConnection;
 import model.LoginBean;
-import model.QuestionBean;
+import model.TestBean;
 
 /**
- * Servlet implementation class DeleteQuestion
+ * Servlet implementation class DeleteTest
  */
-@WebServlet("/DeleteQuestion")
-public class DeleteQuestion extends HttpServlet {
+@WebServlet("/DeleteTest")
+public class DeleteTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-
+ 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteQuestion() {
+    public DeleteTest() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -50,6 +50,7 @@ public class DeleteQuestion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -61,23 +62,23 @@ public class DeleteQuestion extends HttpServlet {
 			LoginBean bean = (LoginBean)ses.getAttribute("loginBean");
 			if(bean != null) {
 				request.setCharacterEncoding("utf-8");
-				String questionID = request.getParameter("questionID");
+				String testID = request.getParameter("testID");
 				boolean isError = false;
 				StringBuilder errors = new StringBuilder();
-				if(questionID == null || questionID.trim().isEmpty()) {
+				if(testID == null || testID.trim().isEmpty()) {
 					isError = true;
-					errors.append("> Không thể lấy mã câu hỏi để xóa.<br />");
+					errors.append("> Không thể lấy mã đề thi để xóa.<br />");
 				}
 				if(!isError) {
-					QuestionBean question = new QuestionBean();
-					question.setId(questionID);
-					if(this.deleteQuestion(question) > 0) {
+					TestBean test = new TestBean();
+					test.setId(testID);
+					if(this.deleteTest(test) > 0) {
 						request.setAttribute("success", 
-								String.format("\u2713\u2713 Đã xóa câu hỏi %s thành công.", questionID));
+								String.format("\u2713\u2713 Đã xóa đề thi %s thành công.", testID));
 						request.getRequestDispatcher("WEB-INF/common/ReportSuccess.jsp").forward(request, response);
 						return;
 					} else {
-						errors.append(String.format("> Xóa câu hỏi %s thất bại.<br />", questionID));
+						errors.append(String.format("> Xóa câu hỏi %s thất bại.<br />", testID));
 						request.setAttribute("errors", errors);
 					}
 				} else {
@@ -88,16 +89,15 @@ public class DeleteQuestion extends HttpServlet {
 		}
 	}
 	
-	private int deleteQuestion(QuestionBean question) {
+	private int deleteTest(TestBean test) {
 		try(Connection con = DBConnection.getConnection();
-				CallableStatement deleteQuestionCmd = con.prepareCall("{call sp_tcDeleteQuestion(?)}")) {
-			deleteQuestionCmd.setString(1, question.getId());
-			return deleteQuestionCmd.executeUpdate();
+				CallableStatement deleteTestCmd = con.prepareCall("{call sp_tcDeleteTest(?)}")) {
+			deleteTestCmd.setString(1, test.getId());
+			return deleteTestCmd.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
 	}
-
 }

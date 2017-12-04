@@ -4,6 +4,7 @@ public class ViewTestBean {
 	private String semesterID;
 	private String teacherID;
 	private String subjectID;
+	private String subjectName;
 	private String searchString;
 	public String getSemesterID() {
 		return semesterID;
@@ -22,6 +23,12 @@ public class ViewTestBean {
 	}
 	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
+	}
+	public String getSubjectName() {
+		return subjectName;
+	}
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
 	}
 	public String getSearchString() {
 		return searchString;

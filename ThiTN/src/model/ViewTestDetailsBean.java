@@ -1,27 +1,26 @@
 package model;
 
-
-public class TestBean {
+public class ViewTestDetailsBean {
 	private String id;
 	private String name;
 	private String birth;
 	private	String start;
 	private String end;
 	private String teacherID;
+	private int numStudent;
+	private int numQuestion;
 	private int duration;
-
 	public String getId() {
 		return id;
 	}
-	public String getName() {
-		return this.name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getBirth() {
 		return birth;
@@ -47,10 +46,23 @@ public class TestBean {
 	public void setTeacherID(String teacherID) {
 		this.teacherID = teacherID;
 	}
+	public int getNumStudent() {
+		return numStudent;
+	}
+	public void setNumStudent(int numStudent) {
+		this.numStudent = numStudent;
+	}
+	public int getNumQuestion() {
+		return numQuestion;
+	}
+	public void setNumQuestion(int numQuestion) {
+		this.numQuestion = numQuestion;
+	}
 	public int getDuration() {
 		return duration;
 	}
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+	
 }
