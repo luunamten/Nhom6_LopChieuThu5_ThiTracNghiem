@@ -15,6 +15,7 @@
 <script src="bootstrap400/js/bootstrap.js"></script>
 <script src="bootstrap400/js/bootstrap.min.js"></script>
 <script src="bootstrap400/js/bootstrap.bundle.js"></script>
+<script src="js/viewTest.js"></script>
 <title>Giáo viên</title>
 </head>
 <body>
@@ -38,56 +39,60 @@
 								<label for="select_semester">Chọn học kì</label> <select
 									name="select_semester" id="select_semester"
 									class="form-control">
+									<c:if test="${not empty requestScope.semesters }">
+										<c:forEach var="semester" items="${requestScope.semesters}">
+											<option value="${semester.id}">${semester.name}</option>
+										</c:forEach>
+									</c:if>
 								</select>
 							</div>
 							<div class="form-group col-sm-4">
 								<label for="select_subject">Chọn môn</label> <select
 									name="select_subject" id="select_subject" class="form-control">
-									<option value="A">Mon A</option>
+									<c:if test="${not empty requestScope.subjects }">
+										<c:forEach var="subject" items="${requestScope.subjects}">
+											<option value="${subject.id}">${subject.name}</option>
+										</c:forEach>
+									</c:if>
 								</select>
+							</div>
+							<div class="form-group col-sm">
+								<label for="searchTxt">Chuỗi tìm kiếm</label> <input type="text"
+									name="searchTxt" id="searchTxt" class="form-control" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<input type="button" name="searchBut" id="searchBut"
+									class="btn btn-outline-primary form-control" value="Tìm kiếm" />
 							</div>
 						</div>
 						<!--table showing tests-->
 						<div class="table-responsive-sm">
 							<table id="test_table"
 								class="table table-striped table-hover table-bordered">
-								<tr>
-									<th>STT</th>
-									<th>Mã bài thi</th>
-									<th>Thời điểm tạo</th>
-									<th>Bắt đầu thi</th>
-									<th>Thao tác</th>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>ENGLISh_TEST01</td>
-									<td>2017-11-11 7:00</td>
-									<td>2017-11-11 13:00</td>
-									<td><span title="xóa" class="material-icons pointer_cur">delete</span>
-										<span title="chỉnh sửa" class="material-icons pointer_cur">border_color</span>
-										<a href="gv_deThiChiTiet.jsp"><span title="Chi tiết"
-											class="material-icons pointer_cur"> remove_red_eye </span> </a></td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>ENGLISh_TEST02</td>
-									<td>2017-11-17 7:00</td>
-									<td>2017-11-17 8:00</td>
-									<td><span title="xóa" class="material-icons pointer_cur">delete</span>
-										<span title="chỉnh sửa" class="material-icons pointer_cur">border_color</span>
-										<span title="Chi tiết" class="material-icons pointer_cur">remove_red_eye</span>
-									</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>ENGLISh_TEST03</td>
-									<td>2017-11-29 7:00</td>
-									<td>2017-11-29 15:00</td>
-									<td><span title="xóa" class="material-icons pointer_cur">delete</span>
-										<span title="chỉnh sửa" class="material-icons pointer_cur">border_color</span>
-										<span title="Chi tiết" class="material-icons pointer_cur">remove_red_eye</span>
-									</td>
-								</tr>
+								<thead class="thead-dark">
+									<tr>
+										<th>STT</th>
+										<th>Mã bài thi</th>
+										<th>Tên</th>
+										<th>Bắt đầu thi</th>
+										<th>Kết thúc</th>
+										<th>Thao tác</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>ENGLISh_TEST01</td>
+										<td>2017-11-11 7:00</td>
+										<td>2017-11-11 13:00</td>
+										<td><span title="xóa" class="material-icons pointer_cur">delete</span>
+											<span title="chỉnh sửa" class="material-icons pointer_cur">border_color</span>
+											<a href="gv_deThiChiTiet.jsp"><span title="Chi tiết"
+												class="material-icons pointer_cur"> remove_red_eye </span> </a></td>
+									</tr>
+								</tbody>
 							</table>
 						</div>
 						<!--hidden element for holding table data-->

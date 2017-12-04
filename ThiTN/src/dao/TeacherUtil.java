@@ -99,7 +99,7 @@ public class TeacherUtil {
 			while(semestersRes.next()) {
 				SemesterBean semester = new SemesterBean();
 				semester.setId(semestersRes.getString("mahk"));
-				semester.setName(semestersRes.getString("tenhk"));
+				semester.setName(semestersRes.getString("mota"));
 				semester.setStart(semestersRes.getString("tgbatdau"));
 				semester.setEnd(semestersRes.getString("tgketthuc"));
 				semesters.add(semester);

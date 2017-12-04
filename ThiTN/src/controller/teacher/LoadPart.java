@@ -63,7 +63,7 @@ public class LoadPart extends HttpServlet {
 			parts = util.getPartsOfSubject(bean);
 			if(parts != null) {
 				request.setAttribute("items", parts);
-				request.getRequestDispatcher("WEB-INF/common/PartList.jsp").forward(request, response);
+				request.getRequestDispatcher("WEB-INF/common/List.jsp").forward(request, response);
 			}
 		}
 	}

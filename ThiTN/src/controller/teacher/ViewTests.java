@@ -53,9 +53,9 @@ public class ViewTests extends HttpServlet {
 					TeacherUtil util = new TeacherUtil();
 					List<SemesterBean> semesters = util.getAllSemesters();
 					if(semesters != null && semesters.size() > 0) {
-						List<SubjectBean> parts = util.getSubjectsOfSemester(user, semesters.get(0));
-						if(parts != null && parts.size() > 0) {
-							request.setAttribute("subjects", parts);
+						List<SubjectBean> subjects = util.getSubjectsOfSemester(user, semesters.get(0));
+						if(subjects != null && subjects.size() > 0) {
+							request.setAttribute("subjects", subjects);
 						}
 						request.setAttribute("semesters", semesters);
 					}
