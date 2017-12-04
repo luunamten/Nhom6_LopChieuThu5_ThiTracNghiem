@@ -27,6 +27,11 @@
 		<!--test-->
 		<div class="col-sm-9 test_table_container">
 			<h1>Các câu hỏi</h1>
+			<c:if test="${not empty requestScope.viewQuestionsError }">
+				<p class="notify_error">
+				${requestScope.viewQuestionsError}
+				</p>
+			</c:if>
 			<hr />
 			<div class="card cs_card">
 				<div class="card-body cs_card_body">

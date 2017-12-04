@@ -3,7 +3,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: 'LoadPart',
 			type: 'POST',
-			async: true,
+			async:false,
 			data: {
 				subjectID: $(this).val() 
 			},

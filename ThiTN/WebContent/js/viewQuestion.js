@@ -6,10 +6,10 @@ $(document).ready(function() {
 		$.ajax({
 			url: 'LoadPart',
 			type: 'POST',
-			async: true,
 			data: {
 				subjectID: $(this).val() 
 			},
+			async:false,
 			success: function(content,status) {
 				$('#select_part').empty();
 				$('#select_part').append(content);
@@ -26,6 +26,7 @@ $(document).ready(function() {
 				offset:0,
 				length:pageLength
 			},
+			async:false,
 			type:"POST",
 			success: function(content, status) {
 				var pageIndex = pageOffset / pageLength + 1;
@@ -46,6 +47,7 @@ $(document).ready(function() {
 				offset:pageOffset,
 				length:pageLength
 			},
+			async:false,
 			type:"POST",
 			success: function(content, status) {
 				var pageIndex = pageOffset / pageLength + 1;
@@ -71,6 +73,7 @@ $(document).ready(function() {
 				offset:pageOffset,
 				length:pageLength
 			},
+			async:false,
 			type:"POST",
 			success: function(content, status) {
 				var pageIndex = pageOffset / pageLength + 1;

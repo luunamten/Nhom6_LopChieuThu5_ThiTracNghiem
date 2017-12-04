@@ -101,19 +101,19 @@ public class ViewQuestions extends HttpServlet {
 				boolean isError = false;
 				if(partID == null || partID.trim().length() == 0) {
 					isError = true;
-					errors.append("> Phải chọn một phần.");
+					errors.append("> Phải chọn một phần.<br />");
 				}
 				if(searchString == null) {
 					isError = true;
-					errors.append("> Không nhận được chuỗi tìm kiếm.");
+					errors.append("> Không nhận được chuỗi tìm kiếm.<br />");
 				}
 				if(strOffset == null || strOffset.trim().isEmpty()) {
 					isError = true;
-					errors.append("> Không nhận được offset.");
+					errors.append("> Không nhận được offset.<br />");
 				}
 				if(strLength == null || strLength.trim().isEmpty()) {
 					isError = true;
-					errors.append("> Không nhận được length.");
+					errors.append("> Không nhận được length.<br />");
 				}
 				try {
 					offset = Integer.parseInt(strOffset);
@@ -131,7 +131,9 @@ public class ViewQuestions extends HttpServlet {
 					viewQuestion.setLength(length);
 					questions = this.getQuestions(viewQuestion);
 					request.setAttribute("questions", questions);
-				} 
+				} else {
+					request.setAttribute("viewQuestionsError", errors);
+				}
  			}
 		}
 		request.getRequestDispatcher("WEB-INF/teacher/tcQuestionTableRows.jsp").forward(request, response);
