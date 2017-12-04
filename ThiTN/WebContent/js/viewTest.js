@@ -12,4 +12,21 @@ $(document).ready(function() {
 			}
 		}); 
 	});
+	
+	$('#searchBut').click(function() {
+		$('#question_table > tbody').empty();
+		$.ajax({
+			url:'ViewTests',
+			data:{
+				select_semester:$('#select_semester').val(),
+				select_subject:$('#select_subject').val(),
+				searchTxt:$('#searchTxt').val()
+			},
+			async:false,
+			type:"POST",
+			success: function(content, status) {
+				$('#test_table > tbody').html(content);			
+			}
+		});
+	});
 });

@@ -60,11 +60,7 @@
 				<div class="form-group">
 					<label for="phoneNumberTxt">Số điện thoại mới</label> <input
 						type="text" id="phoneNumberTxt" name="phoneNumberTxt"
-						class="form-control" /> <span class="check_status"> <c:if
-							test="${not empty requestScope.phoneTxtError }">
-                	${requestScope.phoneTxtError }
-                </c:if>
-					</span>
+						class="form-control" />
 				</div>
 				<div class="form-group">
 					<input type="submit" class="form-control btn btn-primary btn-block"
@@ -78,12 +74,7 @@
 			<form method="post" action="${param.cEmailTarget}">
 				<div class="form-group">
 					<label for="emailTxt">Email mới</label> <input type="text"
-						id="emailTxt" name="emailTxt" class="form-control" /> <span
-						class="check_status"> <c:if
-							test="${not empty requestScope.emailTxtError }">
-                	${requestScope.emailTxtError }
-                </c:if>
-					</span>
+						id="emailTxt" name="emailTxt" class="form-control" />
 				</div>
 				<div class="form-group">
 					<input type="submit" class="form-control btn btn-primary btn-block"
@@ -97,30 +88,17 @@
 			<form method="post" action="${param.cPassTarget}">
 				<div class="form-group">
 					<label for="oldPassTxt">Mật khẩu cũ:</label> <input type="password"
-						id="oldPassTxt" name="oldPassTxt" class="form-control" /> <span
-						class="check_status"> <c:if
-							test="${not empty requestScope.oldError }">
-                	${requestScope.oldError }
-                </c:if>
-					</span>
+						id="oldPassTxt" name="oldPassTxt" class="form-control" />
 				</div>
 				<div class="form-group">
 					<label for="newPassTxt">Mật khẩu mới:</label> <input
 						type="password" id="newPassTxt" name="newPassTxt"
-						class="form-control" /> <span class="check_status"> <c:if
-							test="${not empty requestScope.newError }">
-                	${requestScope.newError }
-                </c:if>
-					</span>
+						class="form-control" />
 				</div>
 				<div class="form-group">
 					<label for="reNewPassTxt">Nhập lại mật khẩu mới:</label> <input
 						type="password" id="reNewPassTxt" name="reNewPassTxt"
-						class="form-control" /> <span class="check_status"> <c:if
-							test="${not empty requestScope.reNewError }">
-                	${requestScope.reNewError }
-                </c:if>
-					</span>
+						class="form-control" />
 				</div>
 				<hr />
 				<div class="form-group">

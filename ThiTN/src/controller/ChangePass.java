@@ -110,6 +110,8 @@ public class ChangePass extends HttpServlet {
 					} else {
 						request.setAttribute("errors", errors);
 					}
+				} else {
+					request.setAttribute("errors", errors);
 				}
 				this.doGet(request, response);
 			}
