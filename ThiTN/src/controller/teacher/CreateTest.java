@@ -1,6 +1,7 @@
 package controller.teacher;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -282,7 +283,7 @@ public class CreateTest extends HttpServlet {
 	private void generateRandomNumber(List<QuestionBean> questions, 
 			List<QuestionBean> selectedQuestions, int num)
 	{
-		Random ran = new Random();
+		SecureRandom ran = new SecureRandom();
 		HashMap<Integer, Integer> hmap = new HashMap<Integer, Integer>();
 		int maxValue = questions.size() - 1;
 		for (int i = 0; i < num; i++)
