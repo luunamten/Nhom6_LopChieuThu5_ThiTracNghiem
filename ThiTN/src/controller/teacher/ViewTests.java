@@ -1,6 +1,8 @@
 package controller.teacher;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.TeacherUtil;
 import model.LoginBean;
+import model.PartBean;
+import model.SemesterBean;
+import model.SubjectBean;
 
 /**
  * Servlet implementation class ViewTests
@@ -39,10 +45,20 @@ public class ViewTests extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession ses = request.getSession(false);
 		if(ses != null) {
-			LoginBean bean = (LoginBean)ses.getAttribute("loginBean");
-			if(bean != null) {
-				String userType = bean.getUserType();
+			LoginBean user = (LoginBean)ses.getAttribute("loginBean");
+			if(user != null) {
+				String userType = user.getUserType();
 				if(userType.equals("gv")) {
+					request.setCharacterEncoding("utf-8");
+					TeacherUtil util = new TeacherUtil();
+					List<SemesterBean> semesters = util.getAllSemesters();
+					if(semesters != null && semesters.size() > 0) {
+						List<SubjectBean> parts = util.getSubjectsOfSemester(user, semesters.get(0));
+						if(parts != null && parts.size() > 0) {
+							request.setAttribute("subjects", parts);
+						}
+						request.setAttribute("semesters", semesters);
+					}
 					request.getRequestDispatcher("WEB-INF/teacher/tcViewTests.jsp").forward(request, response);
 				} else if(userType.equals("sv")) {
 					response.sendRedirect("Student");

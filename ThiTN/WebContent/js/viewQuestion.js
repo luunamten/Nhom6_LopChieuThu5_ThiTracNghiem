@@ -20,6 +20,7 @@ $(document).ready(function() {
 
 	$('#searchBut').click(function() {
 		$('#question_table > tbody').empty();
+		pageOffset = 0;
 		$.ajax({
 			url:'ViewQuestions',
 			data:{
@@ -92,38 +93,42 @@ $(document).ready(function() {
 		});
 	});
 	$(document).on('click', '.delete_q', function() {
+
 		var questionID = $(this).closest('tr').children('td:nth-child(2)').text();
-		$('#question_table > tbody').empty();
-		$.ajax({
-			url:"DeleteQuestion",
-			type:"POST",
-			async: false,
-			data: {
-				questionID: questionID
-			},
-			success: function(content, status) {
-				$("#report_result").html(content);
-				$.ajax({
-					url:'ViewQuestions',
-					data:{
-						select_part:$('#select_part').val(),
-						searchTxt:$('#searchTxt').val(),
-						offset:pageOffset,
-						length:pageLength
-					},
-					async:false,
-					type:"POST",
-					success: function(content, status) {
-						$('#question_table > tbody').html(content);
-						if(content.trim() == '') {
-							isLimit = true;
-						} else {
-							isLimit = false;
+		var isDelete = window.confirm("Bạn thực sự muốn xóa câu hỏi "+questionID+" ?");
+		if(isDelete) {
+			$('#question_table > tbody').empty();
+			$.ajax({
+				url:"DeleteQuestion",
+				type:"POST",
+				async: false,
+				data: {
+					questionID: questionID
+				},
+				success: function(content, status) {
+					$("#report_result").html(content);
+					$.ajax({
+						url:'ViewQuestions',
+						data:{
+							select_part:$('#select_part').val(),
+							searchTxt:$('#searchTxt').val(),
+							offset:pageOffset,
+							length:pageLength
+						},
+						async:false,
+						type:"POST",
+						success: function(content, status) {
+							$('#question_table > tbody').html(content);
+							if(content.trim() == '') {
+								isLimit = true;
+							} else {
+								isLimit = false;
+							}
 						}
-					}
-				});
-			}
-		});
+					});
+				}
+			});
+		}
 	});
 	$(document).on('click', '.edit_q', function() {
 		$('#question_table > tbody').empty();

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,8 +22,8 @@
 	<c:import url="../common/header.jsp" />
 	<div class="row">
 		<c:import url="tcFeatures.jsp">
-          <c:param name="f5" value="active"/>
-   		</c:import>
+			<c:param name="f5" value="active" />
+		</c:import>
 		<!--test-->
 		<div class="col-sm-9 test_table_container">
 			<h1>Các bài thi</h1>
@@ -32,12 +32,20 @@
 				<div class="card-body cs_card_body">
 					<!--form-->
 					<form>
-						<!--select subject-->
-						<div class="form-group col-sm-4">
-							<label for="select_subject">Chọn môn</label> <select
-								name="select_subject" id="select_subject" class="form-control">
-								<option value="A">Mon A</option>
-							</select>
+						<div class="row">
+							<!--select subject-->
+							<div class="form-group col-sm-4">
+								<label for="select_semester">Chọn học kì</label> <select
+									name="select_semester" id="select_semester"
+									class="form-control">
+								</select>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="select_subject">Chọn môn</label> <select
+									name="select_subject" id="select_subject" class="form-control">
+									<option value="A">Mon A</option>
+								</select>
+							</div>
 						</div>
 						<!--table showing tests-->
 						<div class="table-responsive-sm">

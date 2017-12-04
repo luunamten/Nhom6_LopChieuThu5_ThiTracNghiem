@@ -95,7 +95,7 @@
 						</div>
 						<div class="form-group">
 							<input type="submit" id="send_but"
-								class="btn btn-primary btn-block" value="Tạo" />
+								class="btn btn-primary btn-block" value="Thêm" />
 						</div>
 					</form>
 				</div>

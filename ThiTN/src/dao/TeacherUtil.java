@@ -10,6 +10,7 @@ import java.util.List;
 import model.LoginBean;
 import model.PartAndNumQuestionBean;
 import model.PartBean;
+import model.SemesterBean;
 import model.SubjectBean;
 
 public class TeacherUtil {
@@ -82,6 +83,50 @@ public class TeacherUtil {
 						}
 					}
 				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<SemesterBean> getAllSemesters() {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement semestersCmd = con.prepareCall("{call sp_loadAllSemesters()}");
+				ResultSet semestersRes = semestersCmd.executeQuery()) {
+			List<SemesterBean> semesters = new ArrayList<SemesterBean>();
+			while(semestersRes.next()) {
+				SemesterBean semester = new SemesterBean();
+				semester.setId(semestersRes.getString("mahk"));
+				semester.setName(semestersRes.getString("tenhk"));
+				semester.setStart(semestersRes.getString("tgbatdau"));
+				semester.setEnd(semestersRes.getString("tgketthuc"));
+				semesters.add(semester);
+			}
+			return semesters;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<SubjectBean> getSubjectsOfSemester(LoginBean user, SemesterBean semester) {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement subjectsCmd = con.prepareCall("{call sp_tcloadSubjects(?,?)}");
+				) {
+			subjectsCmd.setString(1, user.getUsername());
+			subjectsCmd.setString(2, semester.getId());
+			try(ResultSet subjectsRes = subjectsCmd.executeQuery()) {
+				List<SubjectBean> subjects = new ArrayList<SubjectBean>();
+				while(subjectsRes.next()) {
+					SubjectBean subject = new SubjectBean();
+					subject.setId(subjectsRes.getString("mamh"));
+					subject.setName(subjectsRes.getString("tenmh"));
+					subjects.add(subject);
+				}
+				return subjects;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
