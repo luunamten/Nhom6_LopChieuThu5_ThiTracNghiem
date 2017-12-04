@@ -134,12 +134,12 @@ public class AddQuestion extends HttpServlet {
 			bean.setWrongs(wrongs);
 			int numRow = this.addQuestion(bean);
 			if(numRow > 0) {
-				request.setAttribute("addSuccess", "\u2713\u2713 Đã thêm 1 câu hỏi.");
+				request.setAttribute("success", "\u2713\u2713 Đã thêm 1 câu hỏi.");
 			} else {
-				request.setAttribute("addError", "!! Thêm câu hỏi thất bại.");
+				errors.append("> Thêm câu hỏi thất bại.");
 			}
 		} else {
-			request.setAttribute("addError", errors);
+			request.setAttribute("errors", errors);
 		}
 		this.doGet(request, response);
 	}

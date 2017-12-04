@@ -75,13 +75,13 @@ public class ChangeEmail extends HttpServlet {
 					newBean.setUserType(oldBean.getUserType());
 					newBean.setUsername(oldBean.getUsername());
 					if(this.changeEmail(newBean) > 0) {
-						request.setAttribute("emailSuccess", "\u2713\u2713 Cập nhật email thành công.");
+						request.setAttribute("success", "\u2713\u2713 Cập nhật email thành công.");
 						oldBean.setEmail(email);
 					} else {
-						request.setAttribute("emailError", "!! Cập nhật email thất bại.");
+						request.setAttribute("errors", "> Cập nhật email thất bại.");
 					}				
 				} else {
-					request.setAttribute("emailTxtError", "Tối thiểu 5 kí tự, Email không hợp lệ.");
+					request.setAttribute("errors", "> Tối thiểu 5 kí tự, Email không hợp lệ.");
 				}
 				if(oldBean.getUserType().equals("gv")) {
 					request.getRequestDispatcher("/Teacher").forward(request, response);
@@ -92,41 +92,6 @@ public class ChangeEmail extends HttpServlet {
 			}
 		}
 		response.sendRedirect("/Home");
-	}
-	public boolean login(LoginBean bean) {
-		Connection con = null;
-			ResultSet res = null;
-			CallableStatement cmd = null;
-			try {
-				con = DBConnection.getConnection();
-				cmd = con.prepareCall("{call sp_login(?,?,?)}");
-				cmd.setString(1, bean.getUsername());
-				cmd.setString(2, bean.getPassword());
-				cmd.setString(3, bean.getUserType());
-				res = cmd.executeQuery();
-				if(res.next()) {
-					bean.setName(res.getString("hoten"));
-					bean.setEmail(res.getString("email"));
-					bean.setPhoneNumber(res.getString("sdt"));
-					return true;
-				} else {
-					return false;
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				if(res != null) {
-					try {res.close();} catch(SQLException e) {e.printStackTrace();}
-				}
-				if(cmd != null) {
-					try {cmd.close();} catch(SQLException e) {e.printStackTrace();}
-				}
-				if(con != null) {
-					try {con.close();} catch (SQLException e) {e.printStackTrace();}
-				}
-			}
-		return false;
 	}
 	
 	public int changeEmail(LoginBean bean) {

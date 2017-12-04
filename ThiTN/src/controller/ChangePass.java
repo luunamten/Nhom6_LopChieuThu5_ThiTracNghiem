@@ -80,34 +80,35 @@ public class ChangePass extends HttpServlet {
 				String newPass = request.getParameter("newPassTxt");
 				String reNewPass = request.getParameter("reNewPassTxt");
 				boolean isError = false;
+				StringBuilder errors = new StringBuilder();
 				if(oldPass == null || oldPass.trim().length() < 1) {
 					isError = true;
-					request.setAttribute("oldError", "Phải tối thiểu 1 kí tự.");
+					errors.append("> Mật khẩu cũ phải tối thiểu 1 kí tự.");
 				} else if(!oldBean.getPassword().equals(oldPass)) {
 					isError = true;
-					request.setAttribute("oldError", "Mật khẩu sai.");
+					errors.append("> Mật khẩu cũ sai.");
 				}
 
 				if(newPass == null || newPass.trim().length() < 1) {
 					isError = true;
-					request.setAttribute("newError", "Phải tối thiểu 1 kí tự.");
+					errors.append("> Mật khẩu mới phải tối thiểu 1 kí tự.");
 				}
 				if(reNewPass == null || reNewPass.trim().length() < 1) {
 					isError = true;
-					request.setAttribute("reNewError", "Phải tối thiểu 1 kí tự.");
+					errors.append("> Nhập lại mật khẩu phải tối thiểu 1 kí tự.");
 				}
 				
 				if(!newPass.equals(reNewPass)) {
 					isError = true;
-					request.setAttribute("reNewError", "Nhập lại mật khẩu mới không trùng khớp.");
+					errors.append("> Nhập lại mật khẩu mới không trùng khớp.");
 				}
 				
 				if(!isError) {
 					if(this.changePass(oldBean, newPass) > 0) {
-						request.setAttribute("passSuccess", "\u2713\u2713 Cập nhật mật khẩu thành công.");
+						request.setAttribute("success", "\u2713\u2713 Cập nhật mật khẩu thành công.");
 						oldBean.setPassword(newPass);
 					} else {
-						request.setAttribute("passError", "!! Cập nhật mật khẩu thất bại");
+						request.setAttribute("errors", errors);
 					}
 				}
 				this.doGet(request, response);

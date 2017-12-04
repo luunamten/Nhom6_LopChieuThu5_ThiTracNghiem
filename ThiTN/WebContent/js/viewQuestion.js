@@ -3,6 +3,7 @@ $(document).ready(function() {
 	var pageLength = 20;
 	var isLimit = false;
 	$('#select_subject').change(function() {
+		$('#question_table > tbody').empty();
 		$.ajax({
 			url: 'LoadPart',
 			type: 'POST',
@@ -18,6 +19,7 @@ $(document).ready(function() {
 	});
 
 	$('#searchBut').click(function() {
+		$('#question_table > tbody').empty();
 		$.ajax({
 			url:'ViewQuestions',
 			data:{
@@ -36,6 +38,7 @@ $(document).ready(function() {
 		});
 	});
 	$('#backBut').click(function() {
+		$('#question_table > tbody').empty();
 		if(pageOffset >= pageLength) {
 			pageOffset -= pageLength;
 		}
@@ -62,6 +65,7 @@ $(document).ready(function() {
 		});
 	});
 	$('#forwardBut').click(function() {
+		$('#question_table > tbody').empty();
 		if(!isLimit) {
 			pageOffset += pageLength;
 		}
@@ -86,5 +90,42 @@ $(document).ready(function() {
 				}
 			}
 		});
+	});
+	$(document).on('click', '.delete_q', function() {
+		var questionID = $(this).closest('tr').children('td:nth-child(2)').text();
+		$('#question_table > tbody').empty();
+		$.ajax({
+			url:"DeleteQuestion",
+			type:"POST",
+			async: false,
+			data: {
+				questionID: questionID
+			},
+			success: function(content, status) {
+				$("#report_result").html(content);
+				$.ajax({
+					url:'ViewQuestions',
+					data:{
+						select_part:$('#select_part').val(),
+						searchTxt:$('#searchTxt').val(),
+						offset:pageOffset,
+						length:pageLength
+					},
+					async:false,
+					type:"POST",
+					success: function(content, status) {
+						$('#question_table > tbody').html(content);
+						if(content.trim() == '') {
+							isLimit = true;
+						} else {
+							isLimit = false;
+						}
+					}
+				});
+			}
+		});
+	});
+	$(document).on('click', '.edit_q', function() {
+		$('#question_table > tbody').empty();
 	});
 });

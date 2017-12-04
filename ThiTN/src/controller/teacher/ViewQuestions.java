@@ -132,7 +132,7 @@ public class ViewQuestions extends HttpServlet {
 					questions = this.getQuestions(viewQuestion);
 					request.setAttribute("questions", questions);
 				} else {
-					request.setAttribute("viewQuestionsError", errors);
+					request.setAttribute("errors", errors);
 				}
  			}
 		}

@@ -30,16 +30,8 @@
 		<!--test-->
 		<div class="col-sm-9 test_table_container">
 			<h1>Tạo bài thi</h1>
-			<c:if test="${not empty requestScope.createTestSuccess }">
-				<p class="notify_success">
-				${requestScope.createTestSuccess}
-				</p>
-			</c:if>
-			<c:if test="${not empty requestScope.createTestError }">
-				<p class="notify_error">
-				${requestScope.createTestError}
-				</p>
-			</c:if>
+			<c:import url="../common/ReportSuccess.jsp" />
+			<c:import url="../common/ReportErrors.jsp" />
 			<hr />
 			<div class="card cs_card">
 				<div class="card-body cs_card_body">

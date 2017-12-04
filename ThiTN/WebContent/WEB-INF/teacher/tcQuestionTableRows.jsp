@@ -10,8 +10,8 @@
 			<td>${requestScope.questions[i].content}</td>
 			<td>${requestScope.questions[i].birth}</td>
 			<td>
-				<span title="xóa" class="material-icons pointer_cur">delete</span>
-				<span title="chỉnh sửa" class="material-icons pointer_cur">border_color</span>
+				<span title="xóa" class="material-icons pointer_cur delete_q">delete</span>
+				<span title="chỉnh sửa" class="material-icons pointer_cur edit_q">border_color</span>
 			</td>
 		</tr>
 	</c:forEach>

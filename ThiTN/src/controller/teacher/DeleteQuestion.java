@@ -1,6 +1,10 @@
 package controller.teacher;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DBConnection;
 import model.LoginBean;
+import model.QuestionBean;
 
 /**
  * Servlet implementation class DeleteQuestion
@@ -63,12 +69,35 @@ public class DeleteQuestion extends HttpServlet {
 					errors.append("> Không thể lấy mã câu hỏi để xóa.");
 				}
 				if(!isError) {
-					
+					QuestionBean question = new QuestionBean();
+					question.setId(questionID);
+					if(this.deleteQuestions(question) > 0) {
+						request.setAttribute("success", 
+								String.format("\u2713\u2713 Đã xóa câu hỏi %s thành công.", questionID));
+						request.getRequestDispatcher("WEB-INF/common/ReportSuccess.jsp").forward(request, response);
+						return;
+					} else {
+						errors.append(String.format("> Xóa câu hỏi %s thất bại.", questionID));
+						request.setAttribute("errors", errors);
+					}
 				} else {
-					request.setAttribute("viewQuestionsError", errors);
+					request.setAttribute("errors", errors);
 				}
+				request.getRequestDispatcher("WEB-INF/common/ReportErrors.jsp").forward(request, response);
 			}
 		}
+	}
+	
+	private int deleteQuestions(QuestionBean question) {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement deleteQuestionCmd = con.prepareCall("{call sp_tcDeleteQuestion(?)}")) {
+			deleteQuestionCmd.setString(1, question.getId());
+			return deleteQuestionCmd.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

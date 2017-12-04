@@ -76,13 +76,13 @@ public class ChangePhone extends HttpServlet {
 					newBean.setUserType(oldBean.getUserType());
 					newBean.setUsername(oldBean.getUsername());
 					if(this.changePhoneNumber(newBean) > 0) {
-						request.setAttribute("phoneSuccess", "\u2713\u2713 Cập nhật số điện thoại thành công.");
+						request.setAttribute("success", "\u2713\u2713 Cập nhật số điện thoại thành công.");
 						oldBean.setPhoneNumber(phoneNumber);
 					} else {
-						request.setAttribute("phoneError", "!! Cập nhật số điện thoại thất bại.");
+						request.setAttribute("errors", "> Cập nhật số điện thoại thất bại.");
 					}				
 				} else {
-					request.setAttribute("phoneTxtError", "Tối thiểu 4 kí tự, phải nhập số 0-9.");
+					request.setAttribute("errors", "> Tối thiểu 4 kí tự, phải nhập số 0-9.");
 				}
 				if(oldBean.getUserType().equals("gv")) {
 					request.getRequestDispatcher("Teacher").forward(request, response);

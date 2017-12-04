@@ -4,24 +4,11 @@
 <!--Form cua chuc nang them cau hoi-->
 <div class="col-sm-9 test_table_container">
 	<h1>${param.title}</h1>
-	<c:if test="${not empty requestScope.phoneSuccess }">
+	<c:if test="${not empty requestScope.success }">
 		<p style="background: #99ff99;">${requestScope.phoneSuccess}</p>
 	</c:if>
-	<c:if test="${not empty requestScope.phoneError }">
-		<p style="background: #ff8080;">${requestScope.phoneError}</p>
-	</c:if>
-	<c:if test="${not empty requestScope.emailSuccess }">
-		<p style="background: #99ff99;">${requestScope.emailSuccess}</p>
-	</c:if>
-	<c:if test="${not empty requestScope.emailError }">
-		<p style="background: #ff8080;">${requestScope.emailError}</p>
-	</c:if>
-	<c:if test="${not empty requestScope.passSuccess }">
-		<p style="background: #99ff99;">${requestScope.passSuccess}</p>
-	</c:if>
-	<c:if test="${not empty requestScope.passError }">
-		<p style="background: #ff8080;">${requestScope.passError}</p>
-	</c:if>
+	<c:import url="../common/ReportSuccess.jsp" />
+	<c:import url="../common/ReportErrors.jsp" />
 	<hr />
 	<div class="card cs_card">
 		<div class="card-body cs_card_body">

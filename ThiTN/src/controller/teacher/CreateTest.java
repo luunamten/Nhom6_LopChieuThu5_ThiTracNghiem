@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -194,13 +193,13 @@ public class CreateTest extends HttpServlet {
 					testBean.setStart(startDateTime);
 					testBean.setEnd(endDateTime);
 					if(this.createTests(testBean, parts)) {
-						request.setAttribute("createTestSuccess", "\u2713\u2713 Đã tạo bài thi thành công.");
+						request.setAttribute("success", "\u2713\u2713 Đã tạo bài thi thành công.");
 					} else {
-						request.setAttribute("createTestError", "!! Tạo bài thi thất bại.");
+						errors.append("> Tạo bài thi thất bại.");
 					}
 					
 				} else {
-					request.setAttribute("createTestError", errors);
+					request.setAttribute("errors", errors);
 				}
 			}
 		}
