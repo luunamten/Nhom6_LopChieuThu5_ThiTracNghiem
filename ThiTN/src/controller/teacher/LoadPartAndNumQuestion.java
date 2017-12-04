@@ -55,7 +55,7 @@ public class LoadPartAndNumQuestion extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		String subjectID = request.getParameter("subjectID");
-		if(!subjectID.equals("")) {
+		if(subjectID !=null && !subjectID.trim().isEmpty()) {
 			SubjectBean subject = new SubjectBean();
 			TeacherUtil util = new TeacherUtil();
 			List<PartAndNumQuestionBean> parts;

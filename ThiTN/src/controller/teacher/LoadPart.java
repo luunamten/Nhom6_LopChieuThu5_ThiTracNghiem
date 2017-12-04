@@ -55,7 +55,7 @@ public class LoadPart extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		String subjectID = request.getParameter("subjectID");
-		if(!subjectID.equals("")) {
+		if(subjectID != null && !subjectID.trim().isEmpty()) {
 			SubjectBean bean = new SubjectBean();
 			TeacherUtil util = new TeacherUtil();
 			ArrayList<PartBean> parts;

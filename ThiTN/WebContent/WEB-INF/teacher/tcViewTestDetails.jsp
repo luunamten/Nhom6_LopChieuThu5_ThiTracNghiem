@@ -14,6 +14,7 @@
 <script src="bootstrap400/js/bootstrap.js"></script>
 <script src="bootstrap400/js/bootstrap.min.js"></script>
 <script src="bootstrap400/js/bootstrap.bundle.js"></script>
+<script src="js/viewTestDetails.js"></script>
 <title>Chi tiết bài thi</title>
 </head>
 <body>
@@ -24,16 +25,36 @@
 		<div class="col-sm-4">
 			<div class="card cs_card">
 				<div class="card-header bg-info text-white">
-					<h4>${requestScope.test.id} - ${requestScope.test.name}</h4>
+					<h4>
+					${requestScope.test.id} - ${requestScope.test.name}
+					<input type="hidden" value="${requestScope.test.id}" id="test_id" />
+					</h4>
 				</div>
 				<div class="card-body cs_card_body">
-					<p id="subject"><strong>Môn: </strong> ${requestScope.subject.id } - ${requestScope.subject.name }</p>
-					<p id="total_time"><strong>Thời gian: </strong> ${requestScope.test.duration} phút</p>
-					<p id="num_question"><strong>Số câu: </strong> ${requestScope.test.numQuestion} </p>
-					<p id="create_time"><strong>Thời gian tạo: </strong> ${requestScope.test.birth}</p>
-					<p id="start_time"><strong>Thời gian bắt đầu: </strong> ${requestScope.test.start}</p>
-					<p id="end_time"><strong>Thời gian kết thúc: </strong> ${requestScope.test.end}</p>
-					<p id="num_sv"><strong>Số sinh viên thi: </strong> ${requestScope.test.numStudent} </p>
+					<p id="subject">
+						<strong>Môn: </strong> ${requestScope.subject.id } -
+						${requestScope.subject.name }
+						
+					</p>
+					<p id="total_time">
+						<strong>Thời gian: </strong> ${requestScope.test.duration} phút
+					</p>
+					<p id="num_question">
+						<strong>Số câu: </strong> ${requestScope.test.numQuestion}
+					</p>
+					<p id="create_time">
+						<strong>Thời gian tạo: </strong> ${requestScope.test.birth}
+					</p>
+					<p id="start_time">
+						<strong>Thời gian bắt đầu: </strong> ${requestScope.test.start}
+					</p>
+					<p id="end_time">
+						<strong>Thời gian kết thúc: </strong> ${requestScope.test.end}
+					</p>
+					<p id="num_sv">
+						<strong>Số sinh viên thi: </strong>
+						${requestScope.test.numStudent}
+					</p>
 				</div>
 				<div class="card-footer">
 					<a href="gv_cacBaiThi.jsp"><button type="button"
@@ -53,12 +74,16 @@
 						<div class="form-group col-sm-4">
 							<label for="select_class">Chọn lớp</label> <select
 								name="select_class" id="select_class" class="form-control">
-								<option value="A">Lớp A</option>
+								<c:if test="${not empty requestScope.classes }">
+									<c:forEach var="_class" items="${requestScope.classes}">
+										<option value="${_class.id}">${_class.name}</option>
+									</c:forEach>
+								</c:if>
 							</select>
 						</div>
 						<!--table showing tests-->
 						<div class="table-responsive-sm">
-							<table id="sv_table"
+							<table id="student_table"
 								class="table table-striped table-hover table-bordered">
 								<thead class="thead-dark">
 									<tr>
@@ -70,14 +95,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>15110255</td>
-										<td>Lưu Nam</td>
-										<td>10đ</td>
-										<td><span title="xóa" class="material-icons pointer_cur">check_box</span>
-										</td>
-									</tr>
+
 								</tbody>
 							</table>
 						</div>
