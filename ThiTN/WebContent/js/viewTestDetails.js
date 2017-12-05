@@ -17,6 +17,11 @@ $(document).ready(function() {
 		$("form[name=test_data_form]").submit();
 	});
 	
+	$('#edit_students_but').click(function() {
+		$("form[name=mix_data_form]").submit();
+	});
+	
+	
 	$('#back_to_tests').click(function() {
 		window.history.back();
 	});

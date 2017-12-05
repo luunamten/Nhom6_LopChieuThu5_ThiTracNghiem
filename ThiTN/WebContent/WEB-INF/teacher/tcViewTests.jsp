@@ -68,7 +68,7 @@
 						<div class="row">
 							<div class="form-group col-sm-4">
 								<input type="button" name="searchBut" id="searchBut"
-									class="btn btn-outline-primary form-control" value="Tìm kiếm" />
+									class="btn btn-primary form-control" value="Tìm kiếm" />
 							</div>
 						</div>
 						<!--table showing tests-->
@@ -89,8 +89,6 @@
 								</tbody>
 							</table>
 						</div>
-						<!--hidden element for holding table data-->
-						<input type="hidden" name="table_value" id="table_value" />
 					</form>
 				</div>
 			</div>

@@ -79,15 +79,16 @@ public class ViewTestDetails extends HttpServlet {
 					test.setId(testID);
 					testDetails.setTest(test);
 					if(this.getOneTest(testDetails)) {
-						List<ClassBean> classes = this.getClasses(semester, user, subject);
+						TeacherUtil util = new TeacherUtil();
+						List<ClassBean> classes = util.getClasses(semester, user, subject);
 						if(classes != null && classes.size() > 0) {
-							TeacherUtil util = new TeacherUtil();
 							List<TestingBean> testings = util.getTestings(classes.get(0), test);
 							if(testings != null) {
 								request.setAttribute("testDetails", testDetails);
 								request.setAttribute("subject", subject);
 								request.setAttribute("classes", classes);
 								request.setAttribute("testings", testings);
+								request.setAttribute("semester", semester);
 								request.getRequestDispatcher("WEB-INF/teacher/tcViewTestDetails.jsp").forward(request, response);
 							}else {
 								response.sendRedirect("ViewTests");
@@ -137,29 +138,5 @@ public class ViewTestDetails extends HttpServlet {
 		}
 		return false;
 	}
-	private List<ClassBean> getClasses(SemesterBean semester, LoginBean user, SubjectBean subject) {
-		try(Connection con = DBConnection.getConnection();
-				CallableStatement classesCmd = con.prepareCall("{call sp_tcLoadClasses(?,?,?)}")) {
-			classesCmd.setString(1, semester.getId());
-			classesCmd.setString(2, user.getUsername());
-			classesCmd.setString(3, subject.getId());
-			try(ResultSet classesRes = classesCmd.executeQuery()) {
-				List<ClassBean> classes = new ArrayList<ClassBean>();
-				while(classesRes.next()) {
-					ClassBean _class = new ClassBean();
-					_class.setId(classesRes.getString("malop"));
-					_class.setName(classesRes.getString("tenlop"));
-					_class.setSemesterID(classesRes.getString("mahk"));
-					_class.setTeacherID(classesRes.getString("magv"));
-					_class.setSubjectID(classesRes.getString("mamh"));
-					classes.add(_class);
-				}
-				return classes;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 }

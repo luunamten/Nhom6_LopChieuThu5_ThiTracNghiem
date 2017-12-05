@@ -66,16 +66,16 @@
 						<div class="row">
 							<div class="form-group col-sm-4">
 								<input type="button" name="searchBut" id="searchBut"
-									class="btn btn-outline-primary form-control" value="Tìm kiếm" />
+									class="btn btn-primary form-control" value="Tìm kiếm" />
 							</div>
-							<div class="col-sm-4">
+							<div class="form-group col-sm-4">
 								<button type="button" id="backBut"
-									class="btn btn-outline-danger form-control">&lt;&lt;
+									class="btn btn-danger form-control">&lt;&lt;
 									Quay trở lại</button>
 							</div>
-							<div class="col-sm-4">
+							<div class="form-group col-sm-4">
 								<button type="button" id="forwardBut"
-									class="btn btn-outline-danger form-control">Tải thêm
+									class="btn btn-danger form-control">Tải thêm
 									20 câu>></button>
 							</div>
 						</div>

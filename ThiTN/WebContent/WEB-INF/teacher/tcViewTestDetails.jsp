@@ -57,12 +57,12 @@
 				<div class="card-footer">
 					<div class="row">
 						<div class="col-sm">
-							<button type="button" class="btn btn-block btn-outline-danger"
+							<button type="button" class="btn btn-block btn-danger"
 								id="back_to_tests">&lt;&lt; Trở về</button>
 						</div>
 						<div class="col-sm">
 
-							<button type="button" class="btn btn-block btn-outline-primary"
+							<button type="button" class="btn btn-block btn-primary"
 								id="edit_test_but">Chỉnh sửa >></button>
 						</div>
 					</div>
@@ -77,7 +77,7 @@
 					<!--form-->
 					<form>
 						<!--select subject-->
-						<div class="form-group col-sm-4">
+						<div class="form-group col-md-4">
 							<label for="select_class">Chọn lớp</label> <select
 								name="select_class" id="select_class" class="form-control">
 								<c:if test="${not empty requestScope.classes }">
@@ -86,6 +86,9 @@
 									</c:forEach>
 								</c:if>
 							</select>
+						</div>
+						<div class="col-md-4">
+							<button type="button" class="form-control btn btn-primary" id="edit_students_but">Thay đổi >></button>
 						</div>
 						<!--table showing tests-->
 						<div class="table-responsive-sm">
@@ -106,8 +109,6 @@
 								</tbody>
 							</table>
 						</div>
-						<!--hidden element for holding table data-->
-						<input type="hidden" name="table_value" id="table_value" />
 					</form>
 				</div>
 			</div>
@@ -119,6 +120,12 @@
 			type="hidden" value="${test.start}" name="test_start" /> <input
 			type="hidden" value="${test.end}" name="test_end" /> <input
 			type="hidden" value="${test.duration}" name="test_duration" />
+	</form>
+	<form method="get" action="EditStudentsOfTest" name="mix_data_form">
+		<input type="hidden" value="${test.id}" name="mix_test_id" /> <input
+			type="hidden" value="${requestScope.semester.id}"
+			name="mix_semester_id" /> <input type="hidden"
+			value="${requestScope.subject.id}" name="mix_subject_id" />
 	</form>
 </body>
 </html>

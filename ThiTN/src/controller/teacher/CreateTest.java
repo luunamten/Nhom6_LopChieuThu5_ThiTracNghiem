@@ -149,7 +149,7 @@ public class CreateTest extends HttpServlet {
 						exp.printStackTrace();
 					}		
 				}															
-				if(testName.trim().length() < 6) {
+				if(testName == null || testName.trim().length() < 6) {
 					isError = true;
 					errors.append("> Tên bài thi tối thiểu 6 kí tự.<br />");
 				}

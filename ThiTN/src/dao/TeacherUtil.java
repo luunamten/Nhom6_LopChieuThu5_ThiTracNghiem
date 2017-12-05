@@ -190,4 +190,30 @@ public class TeacherUtil {
 		}
 		return null;
 	}
+	
+	public List<ClassBean> getClasses(SemesterBean semester, LoginBean user, SubjectBean subject) {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement classesCmd = con.prepareCall("{call sp_tcLoadClasses(?,?,?)}")) {
+			classesCmd.setString(1, semester.getId());
+			classesCmd.setString(2, user.getUsername());
+			classesCmd.setString(3, subject.getId());
+			try(ResultSet classesRes = classesCmd.executeQuery()) {
+				List<ClassBean> classes = new ArrayList<ClassBean>();
+				while(classesRes.next()) {
+					ClassBean _class = new ClassBean();
+					_class.setId(classesRes.getString("malop"));
+					_class.setName(classesRes.getString("tenlop"));
+					_class.setSemesterID(classesRes.getString("mahk"));
+					_class.setTeacherID(classesRes.getString("magv"));
+					_class.setSubjectID(classesRes.getString("mamh"));
+					classes.add(_class);
+				}
+				return classes;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

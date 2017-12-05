@@ -14,7 +14,6 @@
 			<td>${requestScope.tests[i].end}</td>
 			<td>
 				<span title="xóa" class="material-icons pointer_cur delete_q">delete</span>
-				<span title="chỉnh sửa" class="material-icons pointer_cur edit_q">border_color</span>
 				<a title="Chi tiết" class="material-icons pointer_cur non_link"
 					 href="ViewTestDetails?smid=${viewTest.semesterID}&suid=${viewTest.subjectID}&suname=${viewTest.subjectName}&tid=${id}">
 					remove_red_eye
