@@ -12,7 +12,8 @@ import model.LoginBean;
 import model.PartAndNumQuestionBean;
 import model.PartBean;
 import model.SemesterBean;
-import model.StudentTestingBean;
+import model.StudentBean;
+import model.TestingBean;
 import model.SubjectBean;
 import model.TestBean;
 
@@ -164,22 +165,24 @@ public class TeacherUtil {
     	return null;
     }
 	
-	public List<StudentTestingBean> getStudentstudents(ClassBean _class, TestBean test) {
+	public List<TestingBean> getTestings(ClassBean _class, TestBean test) {
 		try(Connection con = DBConnection.getConnection();
 				CallableStatement studentsCmd = con.prepareCall("{call sp_tcLoadStudentsOfTest(?,?)}")) {
 			studentsCmd.setString(1, _class.getId());
 			studentsCmd.setString(2, test.getId());
 			try(ResultSet tesingsRes = studentsCmd.executeQuery()) {
-				List<StudentTestingBean> students = new ArrayList<StudentTestingBean>();
+				List<TestingBean> testings = new ArrayList<TestingBean>();
 				while(tesingsRes.next()) {
-					StudentTestingBean student = new StudentTestingBean();
-					student.setStudentID(tesingsRes.getString("mssv"));
-					student.setStudentName(tesingsRes.getString("hoten"));
-					student.setPoint(tesingsRes.getFloat("diemthi"));
-					student.setStart(tesingsRes.getString("ngaythi"));
-					students.add(student);
+					TestingBean testing = new TestingBean();
+					StudentBean student = new StudentBean();	
+					student.setUsername(tesingsRes.getString("mssv"));
+					student.setName(tesingsRes.getString("hoten"));
+					testing.setPoint(tesingsRes.getFloat("diemthi"));
+					testing.setStart(tesingsRes.getString("ngaythi"));
+					testing.setStudent(student);
+					testings.add(testing);
 				}
-				return students;
+				return testings;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

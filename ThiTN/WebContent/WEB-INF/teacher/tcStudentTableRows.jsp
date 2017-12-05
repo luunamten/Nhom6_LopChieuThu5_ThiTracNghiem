@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:if test="${not empty requestScope.students }">
-	<c:set var="count" value="${requestScope.students.size()-1}" />
+<c:if test="${not empty requestScope.testings }">
+	<c:set var="count" value="${requestScope.testings.size()-1}" />
 	<c:forEach var="i" begin="0" end="${count}">
-		<c:set var="start" value="${requestScope.students[i].start.trim()}" />
+		<c:set var="testing" value="${requestScope.testings[i]}" />
+		<c:set var="student" value="${testing.student}" />
+		<c:set var="start" value="${testing.start.trim()}" />
 		<tr>
 			<td>${i+1}</td>
-			<td>${requestScope.students[i].studentID}</td>
-			<td>${requestScope.students[i].studentName}</td>
-			<td>${requestScope.students[i].point}</td>
+			<td>${student.username}</td>
+			<td>${student.name}</td>
+			<td>${testing.point}</td>
 			<td>
 				<c:choose>
 					<c:when test="${empty start}">  

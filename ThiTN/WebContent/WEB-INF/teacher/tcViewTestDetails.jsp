@@ -97,7 +97,8 @@
 									</tr>
 								</thead>
 								<tbody>
-
+								<c:import url="tcStudentTableRows.jsp" />
+								
 								</tbody>
 							</table>
 						</div>

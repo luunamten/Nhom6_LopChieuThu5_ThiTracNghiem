@@ -24,6 +24,7 @@ import model.PartBean;
 import model.SemesterBean;
 import model.SubjectBean;
 import model.TestBean;
+import model.TestingBean;
 import model.ViewTestDetailsBean;
 
 /**
@@ -79,10 +80,21 @@ public class ViewTestDetails extends HttpServlet {
 					testDetails.setTest(test);
 					if(this.getOneTest(testDetails)) {
 						List<ClassBean> classes = this.getClasses(semester, user, subject);
-						request.setAttribute("testDetails", testDetails);
-						request.setAttribute("subject", subject);
-						request.setAttribute("classes", classes);
-						request.getRequestDispatcher("WEB-INF/teacher/tcViewTestDetails.jsp").forward(request, response);
+						if(classes != null && classes.size() > 0) {
+							TeacherUtil util = new TeacherUtil();
+							List<TestingBean> testings = util.getTestings(classes.get(0), test);
+							if(testings != null) {
+								request.setAttribute("testDetails", testDetails);
+								request.setAttribute("subject", subject);
+								request.setAttribute("classes", classes);
+								request.setAttribute("testings", testings);
+								request.getRequestDispatcher("WEB-INF/teacher/tcViewTestDetails.jsp").forward(request, response);
+							}else {
+								response.sendRedirect("ViewTests");
+							}
+						} else {
+							response.sendRedirect("ViewTests");
+						}
 					} else {
 						response.sendRedirect("ViewTests");
 					}

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.DBConnection;
 import dao.TeacherUtil;
 import model.ClassBean;
-import model.StudentTestingBean;
+import model.TestingBean;
 import model.TestBean;
 
 /**
@@ -53,13 +53,13 @@ public class LoadStudentsOfTest extends HttpServlet {
 		if(classID != null && !classID.trim().isEmpty() && testID != null && !testID.trim().isEmpty()) {
 			ClassBean _class = new ClassBean();
 			TestBean test = new TestBean();
-			List<StudentTestingBean> students;
+			List<TestingBean> testings;
 			TeacherUtil util = new TeacherUtil();
 			_class.setId(classID);
 			test.setId(testID);
-			students = util.getStudentstudents(_class, test);
-			if(students != null) {
-				request.setAttribute("students", students);
+			testings = util.getTestings(_class, test);
+			if(testings != null) {
+				request.setAttribute("testings", testings);
 				request.getRequestDispatcher("WEB-INF/teacher/tcStudentTableRows.jsp").forward(request, response);
 			}
 		}
