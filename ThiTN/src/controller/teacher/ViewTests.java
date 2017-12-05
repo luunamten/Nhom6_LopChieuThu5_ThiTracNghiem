@@ -120,6 +120,7 @@ public class ViewTests extends HttpServlet {
 					request.getRequestDispatcher("WEB-INF/teacher/tcTestTableRows.jsp").forward(request, response);
 				}
 			}
+			
 		}	
 	}
 	private List<TestBean> getTests(ViewTestBean viewTest)  {
