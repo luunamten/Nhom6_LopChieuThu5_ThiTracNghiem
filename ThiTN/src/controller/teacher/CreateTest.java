@@ -221,7 +221,7 @@ public class CreateTest extends HttpServlet {
 				List<QuestionBean> selectedQuestions = new ArrayList<QuestionBean>();	//Tao danh sach luu cac cau hoi duoc chon
 				for(PartAndNumQuestionBean partAndNumQ : partAndNumQs) {		//Lap qua cac phan duoc chon
 					int numQuestion = partAndNumQ.getNumberOfQuestion();
-					List<QuestionBean> questions =this.getQuestions(con, partAndNumQ.getPart());			//Luu tru cac cau hoi da lay ra tu csdl
+					List<QuestionBean> questions = this.getQuestions(con, partAndNumQ.getPart());			//Luu tru cac cau hoi da lay ra tu csdl
 					if(questions != null) {
 						int totalQuestion = questions.size();
 						if(totalQuestion > 0 && totalQuestion >= numQuestion) {

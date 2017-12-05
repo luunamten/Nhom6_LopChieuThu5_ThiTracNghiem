@@ -26,16 +26,12 @@
 			<div class="card cs_card">
 				<div class="card-header bg-info text-white">
 					<c:set var="test" value="${requestScope.testDetails.test}" />
-					<h4>
-						${test.id} - ${test.name} <input
-							type="hidden" value="${test.id}" id="test_id" />
-					</h4>
+					<h4>${test.id}-${test.name}</h4>
 				</div>
 				<div class="card-body cs_card_body">
 					<p id="subject">
 						<strong>Môn: </strong> ${requestScope.subject.id } -
 						${requestScope.subject.name }
-
 					</p>
 
 					<p id="total_time">
@@ -59,9 +55,17 @@
 					</p>
 				</div>
 				<div class="card-footer">
-					<a href="gv_cacBaiThi.jsp"><button type="button"
-							class="btn btn-block btn-outline-danger" id="back_to_tests">
-							&lt;&lt; Trở về</button></a>
+					<div class="row">
+						<div class="col-sm">
+							<button type="button" class="btn btn-block btn-outline-danger"
+								id="back_to_tests">&lt;&lt; Trở về</button>
+						</div>
+						<div class="col-sm">
+
+							<button type="button" class="btn btn-block btn-outline-primary"
+								id="edit_test_but">Chỉnh sửa >></button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -97,8 +101,8 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:import url="tcStudentTableRows.jsp" />
-								
+									<c:import url="tcStudentTableRows.jsp" />
+
 								</tbody>
 							</table>
 						</div>
@@ -109,5 +113,12 @@
 			</div>
 		</div>
 	</div>
+	<form method="post" action="EditTest" name="test_data_form">
+		<input type="hidden" value="${test.id}" name="test_id" /> <input
+			type="hidden" value="${test.name}" name="test_name" /> <input
+			type="hidden" value="${test.start}" name="test_start" /> <input
+			type="hidden" value="${test.end}" name="test_end" /> <input
+			type="hidden" value="${test.duration}" name="test_duration" />
+	</form>
 </body>
 </html>

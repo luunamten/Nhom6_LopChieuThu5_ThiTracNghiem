@@ -35,6 +35,7 @@ import model.ViewTestBean;
 @WebServlet("/ViewTests")
 public class ViewTests extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -48,7 +49,12 @@ public class ViewTests extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+		super.init(config);
+		try {
+			Class.forName(DRIVER);
+		} catch(ClassNotFoundException exp) {
+			exp.printStackTrace();
+		}
 	}
 
 	/**
@@ -120,7 +126,6 @@ public class ViewTests extends HttpServlet {
 					request.getRequestDispatcher("WEB-INF/teacher/tcTestTableRows.jsp").forward(request, response);
 				}
 			}
-			
 		}	
 	}
 	private List<TestBean> getTests(ViewTestBean viewTest)  {
