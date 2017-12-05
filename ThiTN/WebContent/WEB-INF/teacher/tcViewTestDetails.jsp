@@ -56,11 +56,11 @@
 				</div>
 				<div class="card-footer">
 					<div class="row">
-						<div class="col-sm">
+						<div class="form-group col-sm">
 							<button type="button" class="btn btn-block btn-danger"
 								id="back_to_tests">&lt;&lt; Trở về</button>
 						</div>
-						<div class="col-sm">
+						<div class="form-group col-sm">
 
 							<button type="button" class="btn btn-block btn-primary"
 								id="edit_test_but">Chỉnh sửa >></button>
@@ -77,7 +77,7 @@
 					<!--form-->
 					<form>
 						<!--select subject-->
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-5">
 							<label for="select_class">Chọn lớp</label> <select
 								name="select_class" id="select_class" class="form-control">
 								<c:if test="${not empty requestScope.classes }">
@@ -87,7 +87,7 @@
 								</c:if>
 							</select>
 						</div>
-						<div class="col-md-4">
+						<div class="form-group col-md-5">
 							<button type="button" class="form-control btn btn-primary" id="edit_students_but">Thay đổi >></button>
 						</div>
 						<!--table showing tests-->

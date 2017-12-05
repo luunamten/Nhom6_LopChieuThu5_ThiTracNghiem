@@ -167,10 +167,10 @@ public class TeacherUtil {
 	
 	public List<TestingBean> getTestings(ClassBean _class, TestBean test) {
 		try(Connection con = DBConnection.getConnection();
-				CallableStatement studentsCmd = con.prepareCall("{call sp_tcLoadStudentsOfTest(?,?)}")) {
-			studentsCmd.setString(1, _class.getId());
-			studentsCmd.setString(2, test.getId());
-			try(ResultSet tesingsRes = studentsCmd.executeQuery()) {
+				CallableStatement testingsCmd = con.prepareCall("{call sp_tcLoadStudentsOfTest(?,?)}")) {
+			testingsCmd.setString(1, _class.getId());
+			testingsCmd.setString(2, test.getId());
+			try(ResultSet tesingsRes = testingsCmd.executeQuery()) {
 				List<TestingBean> testings = new ArrayList<TestingBean>();
 				while(tesingsRes.next()) {
 					TestingBean testing = new TestingBean();
@@ -209,6 +209,33 @@ public class TeacherUtil {
 					classes.add(_class);
 				}
 				return classes;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<TestingBean> getStudentsAndTest(TestBean test, ClassBean _class) {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement testingsCmd = con.prepareCall("{call sp_tcLoadStudentsAndTest(?,?)}")) {
+			testingsCmd.setString(1, test.getId());
+			testingsCmd.setString(2, _class.getId());
+			try(ResultSet tesingsRes = testingsCmd.executeQuery()) {
+				List<TestingBean> testings = new ArrayList<TestingBean>();
+				while(tesingsRes.next()) {
+					TestingBean testing = new TestingBean();
+					StudentBean student = new StudentBean();
+					TestBean _test = new TestBean();
+					student.setUsername(tesingsRes.getString("mssv"));
+					student.setName(tesingsRes.getString("hoten"));
+					_test.setId(tesingsRes.getString("madt"));
+					testing.setStudent(student);
+					testing.setTest(_test);
+					testings.add(testing);
+				}
+				return testings;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

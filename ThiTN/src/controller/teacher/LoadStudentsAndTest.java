@@ -2,10 +2,6 @@ package controller.teacher;
 
 import java.io.IOException;
 import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -15,29 +11,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.DBConnection;
 import dao.TeacherUtil;
 import model.ClassBean;
-import model.TestingBean;
 import model.TestBean;
+import model.TestingBean;
 
 /**
- * Servlet implementation class LoadStudentsOfTest
+ * Servlet implementation class LoadStudentsAndTest
  */
-@WebServlet("/LoadStudentsOfTest")
-public class LoadStudentsOfTest extends HttpServlet {
+@WebServlet("/LoadStudentsAndTest")
+public class LoadStudentsAndTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LoadStudentsOfTest() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoadStudentsAndTest() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		try {
@@ -47,6 +44,7 @@ public class LoadStudentsOfTest extends HttpServlet {
 			e.printStackTrace();
 		} 
 	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -64,8 +62,9 @@ public class LoadStudentsOfTest extends HttpServlet {
 			testings = util.getStudentsAndTest(test, _class);
 			if(testings != null) {
 				request.setAttribute("testings", testings);
-				request.getRequestDispatcher("WEB-INF/teacher/tcStudentTableRows.jsp").forward(request, response);
+				request.getRequestDispatcher("WEB-INF/teacher/tcSelectStudentTableRows.jsp").forward(request, response);
 			}
+			
 		}
 	}
 
@@ -73,6 +72,7 @@ public class LoadStudentsOfTest extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		// TODO Auto-generated method stub
 	}
+
 }

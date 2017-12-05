@@ -15,22 +15,25 @@
 <script src="bootstrap400/js/bootstrap.js"></script>
 <script src="bootstrap400/js/bootstrap.min.js"></script>
 <script src="bootstrap400/js/bootstrap.bundle.js"></script>
+<script src="js/editStudentsOfTest.js"></script>
+<link rel="stylesheet" href="css/w3.css" />
 <link rel="stylesheet" href="css/login.css" />
 <title>Giáo viên</title>
 </head>
 <body>
 	<c:import url="../common/header.jsp" />
 	<!--Chuc nang-->
-		<div class="col-md-5 container test_table_container">
+		<div class="col-md-7 container test_table_container">
 			<h3>Các lớp và sinh viên thi</h3>
 			<c:import url="../common/ReportSuccess.jsp" />
 			<c:import url="../common/ReportErrors.jsp" />
 			<hr />
 			<div class="card cs_card">
 				<div class="card-body cs_card_body">
-					<form>
+					<form method="post" action="EditStudentsOfTest">
+						<input type="hidden" value="${requestScope.test.id}" name="test_id" /> 
 						<!--select subject-->
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-5">
 							<label for="select_class">Chọn lớp</label> <select
 								name="select_class" id="select_class" class="form-control">
 								<c:if test="${not empty requestScope.classes }">
@@ -40,21 +43,23 @@
 								</c:if>
 							</select>
 						</div>
+						<div class="form-group col-md-5">
+							<input type="submit" class="form-control btn btn-primary" id="edit_students_but" value="Lưu"/>
+						</div>
 						<!--table showing tests-->
 						<div class="table-responsive-sm">
-							<table id="student_table"
+							<table id="testing_table"
 								class="table table-striped table-hover table-bordered">
 								<thead class="thead-dark">
 									<tr>
 										<th>STT</th>
 										<th>Mã số sinh viên</th>
 										<th>Họ tên</th>
-										<th>Điểm</th>
-										<th>Đã thi</th>
+										<th>Được thi</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:import url="tcStudentTableRows.jsp" />
+									<c:import url="tcSelectStudentTableRows.jsp" />
 								</tbody>
 							</table>
 						</div>
