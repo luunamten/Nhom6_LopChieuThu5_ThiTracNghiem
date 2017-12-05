@@ -1,11 +1,8 @@
 package controller.teacher;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -31,8 +29,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import dao.DBConnection;
+import dao.TeacherUtil;
+import model.LoginBean;
 import model.PartBean;
 import model.QuestionBean;
+import model.SubjectBean;
 
 /**
  * Servlet implementation class AddQuestionUsingExcel
@@ -63,7 +64,29 @@ public class AddQuestionUsingExcel extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("AddQuestion").forward(request, response);
+		HttpSession ses = request.getSession(false);
+		if(ses != null) {
+			LoginBean bean = (LoginBean)ses.getAttribute("loginBean");
+			if(bean != null) {
+				String userType = bean.getUserType();
+				if(userType.equals("gv")) {
+					TeacherUtil util = new TeacherUtil();
+					List<SubjectBean> subjects = util.getAllSubjects();
+					if(subjects != null && subjects.size() > 0) {
+						List<PartBean> parts = util.getPartsOfSubject(subjects.get(0));
+						if(parts != null && parts.size() > 0) {
+							request.setAttribute("parts", parts);
+						}
+						request.setAttribute("subjects", subjects);
+					}
+					request.getRequestDispatcher("WEB-INF/teacher/tcAddQuestion.jsp").forward(request, response);
+				} else if(userType.equals("sv")) {
+					response.sendRedirect("Student");
+				}
+				return;
+			}
+		}
+		response.sendRedirect("Home");
 	}
 
 	/**
@@ -95,20 +118,23 @@ public class AddQuestionUsingExcel extends HttpServlet {
 				PartBean part = new PartBean();
 				part.setId(partID);
 				List<QuestionBean> questions = this.getQuestionsFromExcel(excelInp);
-				int numQuestion = questions.size();
-				if(numQuestion > 0) {
-					if(this.addQuestions(questions, part)) {
-						request.setAttribute("success",
-								String.format("\u2713\u2713 Đã thêm %d câu hỏi thành công.", numQuestion));
-					} else {
-						errors.append("> Thêm các câu hỏi thất bại.<br />");
+
+				if(questions != null) {
+					int numQuestion = questions.size();
+					if(numQuestion > 0) {
+						if(this.addQuestions(questions, part)) {
+							request.setAttribute("success",
+									String.format("\u2713\u2713 Đã thêm %d câu hỏi thành công.", numQuestion));
+						} else {
+							errors.append("> Thêm các câu hỏi thất bại.<br />");
+						}
 					}
 				} else {
-					errors.append("> Không lấy được các câu hỏi trong fil Excel.<br />");
+					errors.append("> Không lấy được các câu hỏi trong file Excel.<br />");
 				}
 			}
 		} 
-		request.getRequestDispatcher("AddQuestion").forward(request, response);
+		this.doGet(request, response);
 	}
 
 	private String getStringFromPart(Part part) {
@@ -125,6 +151,15 @@ public class AddQuestionUsingExcel extends HttpServlet {
 	}
 
 	private List<QuestionBean> getQuestionsFromExcel(InputStream inp) {
+		try {
+			if(inp.available() == 0) {
+				return null;
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
 		try (Workbook workbook = new XSSFWorkbook(inp);) {
 			List<QuestionBean> questions = new ArrayList<QuestionBean>();
 			Iterator<Sheet> shIterator = workbook.sheetIterator();
@@ -155,8 +190,9 @@ public class AddQuestionUsingExcel extends HttpServlet {
 			return questions;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		return null;
 	}

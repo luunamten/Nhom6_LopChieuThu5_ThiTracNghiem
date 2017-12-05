@@ -60,6 +60,8 @@
 								</select>
 							</div>
 						</div>
+						<h4>Thêm thủ công</h4>
+						<hr />
 						<!--Nhap cau hoi-->
 						<div class="form-group">
 							<label for="input_question">Nhập câu hỏi(Tối thiểu 6 kí
@@ -98,8 +100,8 @@
 								class="btn btn-primary btn-block" value="Thêm" />
 						</div>
 					</form>
+					<h4>Hoặc dùng file Excel</h4>
 					<hr />
-					<h5>Hoặc dùng file Excel</h5>
 					<form method="post" enctype="multipart/form-data"
 						action="AddQuestionUsingExcel" id="excel_form">
 						<input type="hidden" id="excel_partID" name="excel_partID" />
