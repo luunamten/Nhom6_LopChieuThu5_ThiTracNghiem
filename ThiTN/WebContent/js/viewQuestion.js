@@ -6,7 +6,7 @@ $(document).ready(function() {
 		$('#question_table > tbody').empty();
 		$.ajax({
 			url: 'LoadPart',
-			type: 'POST',
+			type: 'GET',
 			data: {
 				subjectID: $(this).val() 
 			},
@@ -15,7 +15,7 @@ $(document).ready(function() {
 				$('#select_part').empty();
 				$('#select_part').append(content);
 			}
-		}); 
+		});
 	});
 
 	$('#searchBut').click(function() {
@@ -24,13 +24,14 @@ $(document).ready(function() {
 		$.ajax({
 			url:'ViewQuestions',
 			data:{
+				submit:"",
 				select_part:$('#select_part').val(),
 				searchTxt:$('#searchTxt').val(),
 				offset:0,
 				length:pageLength
 			},
 			async:false,
-			type:"POST",
+			type:"GET",
 			success: function(content, status) {
 				var pageIndex = pageOffset / pageLength + 1;
 				$('#question_table_cap').text("Trang "+pageIndex);
@@ -46,13 +47,14 @@ $(document).ready(function() {
 		$.ajax({
 			url:'ViewQuestions',
 			data:{
+				submit:"",
 				select_part:$('#select_part').val(),
 				searchTxt:$('#searchTxt').val(),
 				offset:pageOffset,
 				length:pageLength
 			},
 			async:false,
-			type:"POST",
+			type:"GET",
 			success: function(content, status) {
 				var pageIndex = pageOffset / pageLength + 1;
 				$('#question_table_cap').text("Trang "+pageIndex);
@@ -73,13 +75,14 @@ $(document).ready(function() {
 		$.ajax({
 			url:'ViewQuestions',
 			data:{
+				submit:"",
 				select_part:$('#select_part').val(),
 				searchTxt:$('#searchTxt').val(),
 				offset:pageOffset,
 				length:pageLength
 			},
 			async:false,
-			type:"POST",
+			type:"GET",
 			success: function(content, status) {
 				var pageIndex = pageOffset / pageLength + 1;
 				$('#question_table_cap').text("Trang "+pageIndex);
@@ -93,7 +96,6 @@ $(document).ready(function() {
 		});
 	});
 	$(document).on('click', '.delete_q', function() {
-
 		var questionID = $(this).closest('tr').children('td:nth-child(2)').text();
 		var isDelete = window.confirm("Bạn thực sự muốn xóa câu hỏi "+questionID+" ?");
 		if(isDelete) {
@@ -110,13 +112,14 @@ $(document).ready(function() {
 					$.ajax({
 						url:'ViewQuestions',
 						data:{
+							submit:true,
 							select_part:$('#select_part').val(),
 							searchTxt:$('#searchTxt').val(),
 							offset:pageOffset,
 							length:pageLength
 						},
 						async:false,
-						type:"POST",
+						type:"GET",
 						success: function(content, status) {
 							$('#question_table > tbody').html(content);
 							if(content.trim() == '') {

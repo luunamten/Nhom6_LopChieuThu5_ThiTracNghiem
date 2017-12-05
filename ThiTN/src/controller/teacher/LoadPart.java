@@ -19,13 +19,13 @@ import model.SubjectBean;
 public class LoadPart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoadPart() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoadPart() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -46,13 +46,6 @@ public class LoadPart extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		String subjectID = request.getParameter("subjectID");
 		if(subjectID != null && !subjectID.trim().isEmpty()) {
@@ -66,5 +59,12 @@ public class LoadPart extends HttpServlet {
 				request.getRequestDispatcher("WEB-INF/common/List.jsp").forward(request, response);
 			}
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 	}
 }

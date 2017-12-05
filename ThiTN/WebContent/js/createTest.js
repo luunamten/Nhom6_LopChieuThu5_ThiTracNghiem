@@ -2,8 +2,8 @@ $(document).ready(function() {
 	$('#select_subject').change(function() {
 		$.ajax({
 			url: 'LoadPartAndNumQuestion',
-			type: 'POST',
-			async: true,
+			type: 'GET',
+			async: false,
 			data: {
 				subjectID: $(this).val() 
 			},
@@ -43,9 +43,11 @@ $(document).ready(function() {
 			"</tr>"
 		$("#part_table > tbody").append(elementsString);
 	});
+	
 	$(document).on('click', '.material-icons', function() {
 		$(this).closest('tr').remove();
 	});
+	
 	$("#select_subject").on({
 		input: function() {
 			$("#part_table > tbody").empty("tr");

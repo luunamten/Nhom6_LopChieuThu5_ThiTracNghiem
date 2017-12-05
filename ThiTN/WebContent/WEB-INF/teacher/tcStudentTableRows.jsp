@@ -15,10 +15,10 @@
 			<td>
 				<c:choose>
 					<c:when test="${empty start}">  
-						<span title="xóa" class="material-icons pointer_cur">check_box_outline_blank</span>
+						<span title="chưa thi" class="material-icons pointer_cur">check_box_outline_blank</span>
    					</c:when>
 					<c:when test="${not empty start}">  
-						<span title="xóa" class="material-icons pointer_cur">check_box</span>
+						<span title="đã thi" class="material-icons pointer_cur">check_box</span>
     				</c:when>
 				</c:choose></td>
 		</tr>

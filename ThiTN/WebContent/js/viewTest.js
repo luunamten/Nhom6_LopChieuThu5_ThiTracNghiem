@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$('#select_semester').change(function() {
 		$.ajax({
 			url: 'LoadSubject',
-			type: 'POST',
+			type: 'GET',
 			data: {
 				semesterID: $(this).val() 
 			},
@@ -30,12 +30,14 @@ $(document).ready(function() {
 					$.ajax({
 						url:'ViewTests',
 						data:{
+							submit:"",
 							select_semester:$('#select_semester').val(),
 							select_subject:$('#select_subject').val(),
+							subjectName: $('#select_subject > option:selected').text(),
 							searchTxt:$('#searchTxt').val()
 						},
 						async:false,
-						type:"POST",
+						type:"GET",
 						success: function(content, status) {
 							$('#test_table > tbody').html(content);			
 						}
@@ -50,13 +52,14 @@ $(document).ready(function() {
 		$.ajax({
 			url:'ViewTests',
 			data:{
+				submit:"",
 				select_semester:$('#select_semester').val(),
 				select_subject:$('#select_subject').val(),
 				subjectName: $('#select_subject > option:selected').text(),
 				searchTxt:$('#searchTxt').val()
 			},
 			async:false,
-			type:"POST",
+			type:"GET",
 			success: function(content, status) {
 				$('#test_table > tbody').html(content);			
 			}

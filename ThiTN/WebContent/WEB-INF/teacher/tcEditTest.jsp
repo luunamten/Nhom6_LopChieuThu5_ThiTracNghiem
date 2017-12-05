@@ -21,13 +21,20 @@
 <body>
 	<c:import url="../common/header.jsp" />
 	<!--Chuc nang-->
-	<div class="row">
-		<div class="col-sm-3 test_table_container">
-			<form action="" method="post">
-				<div class="form-group">
-					
-				</div>
-			</form>
+	<div class="col-sm-5 test_table_container">
+		<h1>Thêm câu hỏi</h1>
+		<c:import url="../common/ReportSuccess.jsp" />
+		<c:import url="../common/ReportErrors.jsp" />
+		<hr />
+		<div class="card cs_card">
+			<div class="card-body cs_card_body">
+				<form action="" method="post">
+					<div class="form-group">
+						<label for="test_name"></label>
+						<textarea id="test_name" class="form-control" rows="5"></textarea>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

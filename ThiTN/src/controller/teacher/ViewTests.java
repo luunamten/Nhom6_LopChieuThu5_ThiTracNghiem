@@ -16,17 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.eclipse.jdt.internal.compiler.ast.IfStatement;
 
 import dao.DBConnection;
 import dao.TeacherUtil;
 import model.LoginBean;
-import model.PartBean;
-import model.QuestionBean;
 import model.SemesterBean;
 import model.SubjectBean;
 import model.TestBean;
-import model.ViewQuestionBean;
 import model.ViewTestBean;
 
 /**
@@ -67,17 +63,12 @@ public class ViewTests extends HttpServlet {
 			if(user != null) {
 				String userType = user.getUserType();
 				if(userType.equals("gv")) {
-					request.setCharacterEncoding("utf-8");
-					TeacherUtil util = new TeacherUtil();
-					List<SemesterBean> semesters = util.getAllSemesters();
-					if(semesters != null && semesters.size() > 0) {
-						List<SubjectBean> subjects = util.getSubjectsOfSemester(user, semesters.get(0));
-						if(subjects != null && subjects.size() > 0) {
-							request.setAttribute("subjects", subjects);
-						}
-						request.setAttribute("semesters", semesters);
+					String submit = request.getParameter("submit");
+					if(submit == null) {
+						this.loadPage(request, response, user);
+					} else {
+						this.loadPageOnSubmit(request, response, user);
 					}
-					request.getRequestDispatcher("WEB-INF/teacher/tcViewTests.jsp").forward(request, response);
 				} else if(userType.equals("sv")) {
 					response.sendRedirect("Student");
 				}
@@ -91,43 +82,56 @@ public class ViewTests extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession ses = request.getSession();
-		if(ses != null) {
-			LoginBean user = (LoginBean)ses.getAttribute("loginBean");
-			if(user != null) {
-				String semesterID = request.getParameter("select_semester");
-				String subjectID = request.getParameter("select_subject");
-				String subjectName = request.getParameter("subjectName");
-				String searchString = request.getParameter("searchTxt");
-				boolean isError = false;
-				if(semesterID == null || semesterID.trim().length() == 0) {
-					isError = true;
-				}
-				if(subjectID == null || subjectID.trim().length() == 0) {
-					isError = true;
-				}
-				if(subjectName == null || subjectName.trim().length() == 0) {
-					isError = true;
-				}
-				if(searchString == null) {
-					isError = true;
-				}
-				if(!isError) {
-					List<TestBean> tests;
-					ViewTestBean viewTest = new ViewTestBean();
-					viewTest.setSemesterID(semesterID);
-					viewTest.setTeacherID(user.getUsername());
-					viewTest.setSubjectID(subjectID);
-					viewTest.setSubjectName(subjectName);
-					viewTest.setSearchString(searchString);
-					tests = this.getTests(viewTest);
-					request.setAttribute("tests", tests);
-					request.setAttribute("viewTest", viewTest);
-					request.getRequestDispatcher("WEB-INF/teacher/tcTestTableRows.jsp").forward(request, response);
-				}
-			}
-		}	
+	
 	}
+
+	private void loadPage(HttpServletRequest request, HttpServletResponse response, LoginBean user) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		TeacherUtil util = new TeacherUtil();
+		List<SemesterBean> semesters = util.getAllSemesters();
+		if(semesters != null && semesters.size() > 0) {
+			List<SubjectBean> subjects = util.getSubjectsOfSemester(user, semesters.get(0));
+			if(subjects != null && subjects.size() > 0) {
+				request.setAttribute("subjects", subjects);
+			}
+			request.setAttribute("semesters", semesters);
+		}
+		request.getRequestDispatcher("WEB-INF/teacher/tcViewTests.jsp").forward(request, response);
+	}
+
+	private void loadPageOnSubmit(HttpServletRequest request, HttpServletResponse response, LoginBean user) throws ServletException, IOException {
+		String semesterID = request.getParameter("select_semester");
+		String subjectID = request.getParameter("select_subject");
+		String subjectName = request.getParameter("subjectName");
+		String searchString = request.getParameter("searchTxt");
+		boolean isError = false;
+		if(semesterID == null || semesterID.trim().length() == 0) {
+			isError = true;
+		}
+		if(subjectID == null || subjectID.trim().length() == 0) {
+			isError = true;
+		}
+		if(subjectName == null || subjectName.trim().length() == 0) {
+			isError = true;
+		}
+		if(searchString == null) {
+			isError = true;
+		}
+		if(!isError) {
+			List<TestBean> tests;
+			ViewTestBean viewTest = new ViewTestBean();
+			viewTest.setSemesterID(semesterID);
+			viewTest.setTeacherID(user.getUsername());
+			viewTest.setSubjectID(subjectID);
+			viewTest.setSubjectName(subjectName);
+			viewTest.setSearchString(searchString);
+			tests = this.getTests(viewTest);
+			request.setAttribute("tests", tests);
+			request.setAttribute("viewTest", viewTest);
+			request.getRequestDispatcher("WEB-INF/teacher/tcTestTableRows.jsp").forward(request, response);
+		}
+	}
+
 	private List<TestBean> getTests(ViewTestBean viewTest)  {
 		try(Connection con = DBConnection.getConnection();
 				CallableStatement testsCmd = con.prepareCall("{call sp_tcLoadTests(?,?,?,?)}");) {

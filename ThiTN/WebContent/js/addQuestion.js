@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$('#select_subject').change(function() {
 		$.ajax({
 			url: 'LoadPart',
-			type: 'POST',
+			type: 'GET',
 			async:false,
 			data: {
 				subjectID: $(this).val() 
@@ -12,6 +12,7 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
 	$('#excel_but').click(function() {
 		var res = window.confirm("Bạn có muốn thêm các câu hỏi trong file Excel?");
 		if(res) {

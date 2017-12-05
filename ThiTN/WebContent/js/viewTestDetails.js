@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$('#select_class').change(function() {
 		$.ajax({
 			url: 'LoadStudentsOfTest',
-			type: 'POST',
+			type: 'GET',
 			data: {
 				classID: $(this).val(),
 				testID: $('input[name=test_id]').val()
@@ -15,5 +15,9 @@ $(document).ready(function() {
 	});
 	$('#edit_test_but').click(function() {
 		$("form[name=test_data_form]").submit();
+	});
+	
+	$('#back_to_tests').click(function() {
+		window.history.back();
 	});
 });

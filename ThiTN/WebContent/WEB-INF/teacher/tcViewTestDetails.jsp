@@ -113,7 +113,7 @@
 			</div>
 		</div>
 	</div>
-	<form method="post" action="EditTest" name="test_data_form">
+	<form method="get" action="EditTest" name="test_data_form">
 		<input type="hidden" value="${test.id}" name="test_id" /> <input
 			type="hidden" value="${test.name}" name="test_name" /> <input
 			type="hidden" value="${test.start}" name="test_start" /> <input

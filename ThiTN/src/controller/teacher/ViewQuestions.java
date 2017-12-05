@@ -31,13 +31,13 @@ import model.ViewQuestionBean;
 public class ViewQuestions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ViewQuestions() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ViewQuestions() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -56,23 +56,19 @@ public class ViewQuestions extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("utf-8");
 		HttpSession ses = request.getSession(false);
 		if(ses != null) {
 			LoginBean bean = (LoginBean)ses.getAttribute("loginBean");
 			if(bean != null) {
 				String userType = bean.getUserType();
 				if(userType.equals("gv")) {
-					request.setCharacterEncoding("utf-8");
-					TeacherUtil util = new TeacherUtil();
-					List<SubjectBean> subjects = util.getAllSubjects();
-					if(subjects != null && subjects.size() > 0) {
-						List<PartBean> parts = util.getPartsOfSubject(subjects.get(0));
-						if(parts != null && parts.size() > 0) {
-							request.setAttribute("parts", parts);
-						}
-						request.setAttribute("subjects", subjects);
+					String submit = request.getParameter("submit");
+					if(submit != null) {
+						this.loadPageOnSubmit(request, response);
+					} else {
+						this.loadPage(request, response);
 					}
-					request.getRequestDispatcher("WEB-INF/teacher/tcViewQuestions.jsp").forward(request, response);
 				} else if(userType.equals("sv")) {
 					response.sendRedirect("Student");
 				}
@@ -87,51 +83,62 @@ public class ViewQuestions extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession ses = request.getSession();
-		if(ses != null) {
-			LoginBean bean = (LoginBean)ses.getAttribute("loginBean");
-			if(bean != null) {
-				String partID = request.getParameter("select_part");
-				String searchString = request.getParameter("searchTxt");
-				String strOffset = request.getParameter("offset");
-				String strLength = request.getParameter("length");
-				int offset = 0;
-				int length = 0;
-				boolean isError = false;
-				if(partID == null || partID.trim().length() == 0) {
-					isError = true;
-				}
-				if(searchString == null) {
-					isError = true;
-				}
-				if(strOffset == null || strOffset.trim().isEmpty()) {
-					isError = true;
-				}
-				if(strLength == null || strLength.trim().isEmpty()) {
-					isError = true;
-				}
-				try {
-					offset = Integer.parseInt(strOffset);
-					length = Integer.parseInt(strLength);
-				} catch(NumberFormatException exp) {
-					isError = true;
-					exp.printStackTrace();
-				}
-				if(!isError) {
-					List<QuestionBean> questions;
-					ViewQuestionBean viewQuestion = new ViewQuestionBean();
-					viewQuestion.setPartID(partID);
-					viewQuestion.setSearchString(searchString);
-					viewQuestion.setOffset(offset);
-					viewQuestion.setLength(length);
-					questions = this.getQuestions(viewQuestion);
-					request.setAttribute("questions", questions);
-				}
- 			}
+
+	}
+
+	private void loadPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		TeacherUtil util = new TeacherUtil();
+		List<SubjectBean> subjects = util.getAllSubjects();
+		if(subjects != null && subjects.size() > 0) {
+			List<PartBean> parts = util.getPartsOfSubject(subjects.get(0));
+			if(parts != null && parts.size() > 0) {
+				request.setAttribute("parts", parts);
+			}
+			request.setAttribute("subjects", subjects);
+		}
+		request.getRequestDispatcher("WEB-INF/teacher/tcViewQuestions.jsp").forward(request, response);
+	}
+
+	private void loadPageOnSubmit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String partID = request.getParameter("select_part");
+		String searchString = request.getParameter("searchTxt");
+		String strOffset = request.getParameter("offset");
+		String strLength = request.getParameter("length");
+		int offset = 0;
+		int length = 0;
+		boolean isError = false;
+		if(partID == null || partID.trim().length() == 0) {
+			isError = true;
+		}
+		if(searchString == null) {
+			isError = true;
+		}
+		if(strOffset == null || strOffset.trim().isEmpty()) {
+			isError = true;
+		}
+		if(strLength == null || strLength.trim().isEmpty()) {
+			isError = true;
+		}
+		try {
+			offset = Integer.parseInt(strOffset);
+			length = Integer.parseInt(strLength);
+		} catch(NumberFormatException exp) {
+			isError = true;
+			exp.printStackTrace();
+		}
+		if(!isError) {
+			List<QuestionBean> questions;
+			ViewQuestionBean viewQuestion = new ViewQuestionBean();
+			viewQuestion.setPartID(partID);
+			viewQuestion.setSearchString(searchString);
+			viewQuestion.setOffset(offset);
+			viewQuestion.setLength(length);
+			questions = this.getQuestions(viewQuestion);
+			request.setAttribute("questions", questions);
 		}
 		request.getRequestDispatcher("WEB-INF/teacher/tcQuestionTableRows.jsp").forward(request, response);
 	}
-	
+
 	private List<QuestionBean> getQuestions(ViewQuestionBean viewQuestion) {
 		try(
 				Connection con = DBConnection.getConnection();
