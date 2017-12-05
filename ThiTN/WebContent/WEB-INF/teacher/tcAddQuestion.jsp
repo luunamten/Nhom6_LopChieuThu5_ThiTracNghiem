@@ -98,6 +98,20 @@
 								class="btn btn-primary btn-block" value="Thêm" />
 						</div>
 					</form>
+					<hr />
+					<h5>Hoặc dùng file Excel</h5>
+					<form method="post" enctype="multipart/form-data"
+						action="AddQuestionUsingExcel" id="excel_form">
+						<input type="hidden" id="excel_partID" name="excel_partID" />
+						<div class="row">
+							<div class="form-group col-sm">
+								<input type="file" class="form-control" name="excel_file" accept=".xlsx" />
+							</div>
+							<div class="form-group col-sm">
+								<input type="button" id="excel_but" class="btn form-control btn-primary" value="Thêm" />
+							</div> 
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
