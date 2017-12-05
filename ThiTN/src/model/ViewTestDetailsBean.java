@@ -1,6 +1,8 @@
 package model;
 
-public class ViewTestDetailsBean {
+import java.io.Serializable;
+
+public class ViewTestDetailsBean implements Serializable  {
 	private String id;
 	private String name;
 	private String birth;

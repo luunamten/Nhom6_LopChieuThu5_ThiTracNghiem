@@ -1,6 +1,8 @@
 package model;
 
-public class PartAndNumQuestionBean {
+import java.io.Serializable;
+
+public class PartAndNumQuestionBean implements Serializable  {
 	private String partID;
 	private String partName;
 	private int numberOfQuestion;

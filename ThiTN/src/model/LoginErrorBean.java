@@ -1,6 +1,8 @@
 package model;
 
-public class LoginErrorBean {
+import java.io.Serializable;
+
+public class LoginErrorBean implements Serializable  {
 	private String usernameError;
 	private String passwordError;
 	public String getUsernameError() {

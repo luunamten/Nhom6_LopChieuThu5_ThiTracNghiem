@@ -1,6 +1,8 @@
 package model;
 
-public class ViewTestBean {
+import java.io.Serializable;
+
+public class ViewTestBean implements Serializable  {
 	private String semesterID;
 	private String teacherID;
 	private String subjectID;

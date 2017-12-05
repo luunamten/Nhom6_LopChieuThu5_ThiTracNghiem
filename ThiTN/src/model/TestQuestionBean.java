@@ -1,6 +1,8 @@
 package model;
 
-public class TestQuestionBean {
+import java.io.Serializable;
+
+public class TestQuestionBean implements Serializable  {
 	private String testID;
 	private String questionID;
 	public String getTestID() {

@@ -1,7 +1,8 @@
 package model;
 
+import java.io.Serializable;
 
-public class TestBean {
+public class TestBean implements Serializable  {
 	private String id;
 	private String name;
 	private String birth;

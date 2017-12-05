@@ -1,6 +1,8 @@
 package model;
 
-public class PartBean {
+import java.io.Serializable;
+
+public class PartBean implements Serializable  {
 	private String id;
 	private String name;
 	private String subjectID;

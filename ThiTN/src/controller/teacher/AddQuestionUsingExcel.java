@@ -127,13 +127,17 @@ public class AddQuestionUsingExcel extends HttpServlet {
 									String.format("\u2713\u2713 Đã thêm %d câu hỏi thành công.", numQuestion));
 						} else {
 							errors.append("> Thêm các câu hỏi thất bại.<br />");
+							request.setAttribute("errors", errors);
 						}
 					}
 				} else {
 					errors.append("> Không lấy được các câu hỏi trong file Excel.<br />");
+					request.setAttribute("errors", errors);
 				}
 			}
-		} 
+		} else {
+			request.setAttribute("errors", errors);
+		}
 		this.doGet(request, response);
 	}
 

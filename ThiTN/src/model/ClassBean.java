@@ -1,4 +1,7 @@
 package model;
+
+import java.io.Serializable;
+
 /*
  MALOP varchar(255) PK 
 TENLOP varchar(255) 
@@ -6,7 +9,7 @@ MAHK varchar(255)
 MAGV varchar(255) 
 MAMH varchar(255)
  * */
-public class ClassBean {
+public class ClassBean implements Serializable {
 	private String id;
 	private String name;
 	private String semesterID;

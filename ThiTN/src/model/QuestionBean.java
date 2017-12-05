@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 /*
 MACH varchar(255) PK 
 MAPHAN varchar(255) 
@@ -7,7 +9,7 @@ CAUTRALOI longtext
 CAUTRALOIKHAC longtext 
 MOTA longtext 
 THOIDIEMTHEM datetime*/
-public class QuestionBean {
+public class QuestionBean implements Serializable  {
 	private String id;
 	private String partID;
 	private String correct;

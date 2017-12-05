@@ -1,6 +1,8 @@
 package model;
 
-public class ViewQuestionBean {
+import java.io.Serializable;
+
+public class ViewQuestionBean implements Serializable  {
 	private String partID;
 	private String searchString;
 	private int offset;

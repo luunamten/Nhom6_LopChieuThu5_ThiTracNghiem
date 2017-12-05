@@ -1,6 +1,8 @@
 package model;
 
-public class StudentTestingBean {
+import java.io.Serializable;
+
+public class StudentTestingBean implements Serializable  {
 	private String studentName;
 	private String studentID;
 	private double point;

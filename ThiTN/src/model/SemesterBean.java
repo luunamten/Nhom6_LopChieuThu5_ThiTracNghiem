@@ -1,6 +1,8 @@
 package model;
 
-public class SemesterBean {
+import java.io.Serializable;
+
+public class SemesterBean implements Serializable  {
 	private String id;
 	private String name;
 	private String start;
