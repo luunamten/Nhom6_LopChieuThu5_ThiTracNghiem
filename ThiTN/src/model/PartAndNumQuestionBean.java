@@ -3,20 +3,13 @@ package model;
 import java.io.Serializable;
 
 public class PartAndNumQuestionBean implements Serializable  {
-	private String partID;
-	private String partName;
+	private PartBean part;
 	private int numberOfQuestion;
-	public String getPartID() {
-		return partID;
+	public PartBean getPart() {
+		return part;
 	}
-	public void setPartID(String partID) {
-		this.partID = partID;
-	}
-	public String getPartName() {
-		return partName;
-	}
-	public void setPartName(String partName) {
-		this.partName = partName;
+	public void setPart(PartBean part) {
+		this.part = part;
 	}
 	public int getNumberOfQuestion() {
 		return numberOfQuestion;
@@ -24,5 +17,4 @@ public class PartAndNumQuestionBean implements Serializable  {
 	public void setNumberOfQuestion(int numberOfQuestion) {
 		this.numberOfQuestion = numberOfQuestion;
 	}
-	
 }

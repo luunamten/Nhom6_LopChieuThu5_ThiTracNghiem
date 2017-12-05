@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.ClassBean;
 import model.LoginBean;
 import model.PartAndNumQuestionBean;
 import model.PartBean;
 import model.SemesterBean;
+import model.StudentTestingBean;
 import model.SubjectBean;
+import model.TestBean;
 
 public class TeacherUtil {
 	public TeacherUtil() {
@@ -142,15 +145,17 @@ public class TeacherUtil {
     			) {
     		cmd.setString(1, subject.getId());
     		try(ResultSet res = cmd.executeQuery()) {
-    			List<PartAndNumQuestionBean> parts = new ArrayList<PartAndNumQuestionBean>();
+    			List<PartAndNumQuestionBean> partAndNumQs = new ArrayList<PartAndNumQuestionBean>();
     			while(res.next()) {
-    				PartAndNumQuestionBean part = new PartAndNumQuestionBean();
-    				part.setPartID(res.getString("maphan"));
-    				part.setPartName(res.getString("tenphan"));
-    				part.setNumberOfQuestion(res.getInt("socauhoi"));
-    				parts.add(part);
+    				PartAndNumQuestionBean partAndNumQ = new PartAndNumQuestionBean();
+    				PartBean part = new PartBean();
+    				part.setId(res.getString("maphan"));
+    				part.setName(res.getString("tenphan"));
+    				partAndNumQ.setPart(part);
+    				partAndNumQ.setNumberOfQuestion(res.getInt("socauhoi"));
+    				partAndNumQs.add(partAndNumQ);
     			}
-    			return parts;
+    			return partAndNumQs;
     		}
     	} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -158,4 +163,28 @@ public class TeacherUtil {
 		}
     	return null;
     }
+	
+	public List<StudentTestingBean> getStudentstudents(ClassBean _class, TestBean test) {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement studentsCmd = con.prepareCall("{call sp_tcLoadStudentsOfTest(?,?)}")) {
+			studentsCmd.setString(1, _class.getId());
+			studentsCmd.setString(2, test.getId());
+			try(ResultSet tesingsRes = studentsCmd.executeQuery()) {
+				List<StudentTestingBean> students = new ArrayList<StudentTestingBean>();
+				while(tesingsRes.next()) {
+					StudentTestingBean student = new StudentTestingBean();
+					student.setStudentID(tesingsRes.getString("mssv"));
+					student.setStudentName(tesingsRes.getString("hoten"));
+					student.setPoint(tesingsRes.getFloat("diemthi"));
+					student.setStart(tesingsRes.getString("ngaythi"));
+					students.add(student);
+				}
+				return students;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

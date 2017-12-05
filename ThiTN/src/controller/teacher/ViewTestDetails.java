@@ -68,16 +68,18 @@ public class ViewTestDetails extends HttpServlet {
 					String subjectID = request.getParameter("suid");
 					String subjectName = request.getParameter("suname");
 					String testID = request.getParameter("tid");
-					ViewTestDetailsBean test = new ViewTestDetailsBean();
+					ViewTestDetailsBean testDetails = new ViewTestDetailsBean();
 					SubjectBean subject = new SubjectBean();
 					SemesterBean semester = new SemesterBean();
-					test.setId(testID);
+					TestBean test = new TestBean();
 					subject.setId(subjectID);
 					subject.setName(subjectName);
 					semester.setId(semesterID);
-					if(this.getOneTest(test)) {
+					test.setId(testID);
+					testDetails.setTest(test);
+					if(this.getOneTest(testDetails)) {
 						List<ClassBean> classes = this.getClasses(semester, user, subject);
-						request.setAttribute("test", test);
+						request.setAttribute("testDetails", testDetails);
 						request.setAttribute("subject", subject);
 						request.setAttribute("classes", classes);
 						request.getRequestDispatcher("WEB-INF/teacher/tcViewTestDetails.jsp").forward(request, response);
@@ -99,9 +101,10 @@ public class ViewTestDetails extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
-	private boolean getOneTest(ViewTestDetailsBean test) {
+	private boolean getOneTest(ViewTestDetailsBean testDetails) {
 		try(Connection con = DBConnection.getConnection();
 				CallableStatement testCmd = con.prepareCall("{call sp_tcLoadOneTestDetails(?)}")) {
+			TestBean test = testDetails.getTest();
 			testCmd.setString(1, test.getId());
 			try(ResultSet testRes = testCmd.executeQuery()) {
 				if(testRes.next()) {
@@ -111,8 +114,8 @@ public class ViewTestDetails extends HttpServlet {
 					test.setStart(testRes.getString("batdauthi"));
 					test.setEnd(testRes.getString("thoihan"));
 					test.setDuration(testRes.getInt("thoigian"));
-					test.setNumQuestion(testRes.getInt("socauhoi"));
-					test.setNumStudent(testRes.getInt("sosinhvien"));
+					testDetails.setNumQuestion(testRes.getInt("socauhoi"));
+					testDetails.setNumStudent(testRes.getInt("sosinhvien"));
 					return true;
 				}
 			}

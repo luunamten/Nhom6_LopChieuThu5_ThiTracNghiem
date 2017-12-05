@@ -26,6 +26,7 @@ import dao.DBConnection;
 import dao.TeacherUtil;
 import model.LoginBean;
 import model.PartAndNumQuestionBean;
+import model.PartBean;
 import model.QuestionBean;
 import model.SubjectBean;
 import model.TestBean;
@@ -72,9 +73,9 @@ public class CreateTest extends HttpServlet {
 					TeacherUtil util = new TeacherUtil();
 					List<SubjectBean> subjects = util.getCurrentSubjects(bean);
 					if(subjects != null && subjects.size() > 0) {
-						List<PartAndNumQuestionBean> parts = util.getPartAndNumQuesion(subjects.get(0));
-						if(parts != null && parts.size() > 0) {
-							request.setAttribute("parts", parts);
+						List<PartAndNumQuestionBean> partAndNumQs = util.getPartAndNumQuesion(subjects.get(0));
+						if(partAndNumQs != null && partAndNumQs.size() > 0) {
+							request.setAttribute("partAndNumQs", partAndNumQs);
 						}
 						request.setAttribute("subjects", subjects);
 					}
@@ -108,7 +109,7 @@ public class CreateTest extends HttpServlet {
 				String[] selectedParts = request.getParameterValues("selectedPart");
 				String[] numQuestions = request.getParameterValues("numQuestion");
 				String[] totalQuestions = request.getParameterValues("totalQuestion");
-				List<PartAndNumQuestionBean> parts = new ArrayList<PartAndNumQuestionBean>();
+				List<PartAndNumQuestionBean> partAndNumQs = new ArrayList<PartAndNumQuestionBean>();
 				int duration = 0;
 				StringBuilder errors = new StringBuilder();
 				boolean isError = false;
@@ -168,14 +169,17 @@ public class CreateTest extends HttpServlet {
 								errors.append(
 										String.format("> Số câu đã chọn của phần %s lớn hơn tổng số %d", selectedPartID, totalQuestion));
 							} else {
-								PartAndNumQuestionBean part = new PartAndNumQuestionBean();
-								part.setPartID(selectedPartID);
-								part.setNumberOfQuestion(numSelectedQuestion);
-								parts.add(part);
+								PartAndNumQuestionBean partAndNumQ = new PartAndNumQuestionBean();
+								PartBean part = new PartBean();
+								part.setId(selectedPartID);
+								partAndNumQ.setPart(part);
+								partAndNumQ.setNumberOfQuestion(numSelectedQuestion);
+								partAndNumQs.add(partAndNumQ);
 							}
 						}
 					} catch(NumberFormatException exp) {
 						isError = true;
+						errors.append("> Lỗi không nhận được tổng số câu hỏi .<br />");
 						exp.printStackTrace();
 					}
 				}
@@ -192,12 +196,12 @@ public class CreateTest extends HttpServlet {
 					testBean.setDuration(duration);
 					testBean.setStart(startDateTime);
 					testBean.setEnd(endDateTime);
-					if(this.createTests(testBean, parts)) {
+					if(this.createTests(testBean, partAndNumQs)) {
 						request.setAttribute("success", "\u2713\u2713 Đã tạo bài thi thành công.");
 					} else {
 						errors.append("> Tạo bài thi thất bại.");
 					}
-					
+
 				} else {
 					request.setAttribute("errors", errors);
 				}
@@ -205,74 +209,104 @@ public class CreateTest extends HttpServlet {
 		}
 		this.doGet(request, response);
 	}
-
-	private boolean createTests(TestBean bean, List<PartAndNumQuestionBean> parts) {
+	
+	private boolean createTests(TestBean test, List<PartAndNumQuestionBean> partAndNumQs) {
 		try(
 				Connection con = DBConnection.getConnection();
-				CallableStatement testCmd = con.prepareCall("{call sp_tcCreateTest(?,?,?,?,?,?)}");
 				) {
 			int numRowAffected;
 			con.setAutoCommit(false);
-			testCmd.registerOutParameter(1, Types.VARCHAR, "outid");
-			testCmd.setString(2, bean.getName());
-			testCmd.setString(3, bean.getTeacherID());
-			testCmd.setString(4, bean.getStart());
-			testCmd.setString(5, bean.getEnd());
-			testCmd.setInt(6, bean.getDuration());		
-			numRowAffected = testCmd.executeUpdate();
+			numRowAffected = this.createTest(con, test);
 			if(numRowAffected > 0) {			
-				String testID = testCmd.getString(1);		//lay id cua bai thi vua tao
 				List<QuestionBean> selectedQuestions = new ArrayList<QuestionBean>();	//Tao danh sach luu cac cau hoi duoc chon
-				for(PartAndNumQuestionBean part : parts) {		//Lap qua cac phan duoc chon
-					String partID = part.getPartID();
-					int numQuestion = part.getNumberOfQuestion();
-					try(CallableStatement questionCmd = con.prepareCall("{call sp_tcLoadQuestionsOfPart(?)}")) {    //Xua ra tat ca cac cau hoi cua mot phan
-						questionCmd.setString(1, partID);
-						try(ResultSet res = questionCmd.executeQuery()) {
-							List<QuestionBean> questions = new ArrayList<QuestionBean>();			//Luu tru cac cau hoi da lay ra tu csdl
-							int totalQuestion;
-							while(res.next()) {
-								QuestionBean question = new QuestionBean();
-								question.setId(res.getString("mach"));
-								questions.add(question);
-							}
-							totalQuestion = questions.size();
-							if(questions.size() > 0 && totalQuestion >= numQuestion) {
-								this.generateRandomNumber(questions, selectedQuestions, part.getNumberOfQuestion());
-							} else {
-								con.rollback();
-								return false;
-							}
-						}
+				for(PartAndNumQuestionBean partAndNumQ : partAndNumQs) {		//Lap qua cac phan duoc chon
+					int numQuestion = partAndNumQ.getNumberOfQuestion();
+					List<QuestionBean> questions =this.getQuestions(con, partAndNumQ.getPart());			//Luu tru cac cau hoi da lay ra tu csdl
+					if(questions != null) {
+						int totalQuestion = questions.size();
+						if(totalQuestion > 0 && totalQuestion >= numQuestion) {
+							this.generateRandomNumber(questions, selectedQuestions, numQuestion);
+						} else {
+							con.rollback();
+							return false;
+						}	
+					} else {
+						con.rollback();
+						return false;
 					}
 				}
 				if(selectedQuestions.size() > 0) {
-					try(CallableStatement addQuestionToTestCmd = con.prepareCall("{call sp_tcAddQuestionsToTest(?,?)}")) {
-						for(QuestionBean question : selectedQuestions) {
-							addQuestionToTestCmd.setString(1, question.getId());
-							addQuestionToTestCmd.setString(2, testID);
-							addQuestionToTestCmd.addBatch();
-						}
-						int[] results = addQuestionToTestCmd.executeBatch();
-						boolean isError = false;
-						for(int result : results) {
-							if(result <= 0) {
-								isError = true;
-								break;
-							}
-						}
-						if(isError) {
-							con.rollback();
-							return false;
-						} else {
-							con.commit();
-							return true;
-						}
+					if(this.addQuestionsToTest(con, test, selectedQuestions)) {
+						con.commit();
+						return true;
 					}
 				}
 			} 
 			con.rollback();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private int createTest(Connection con, TestBean test) {
+		try(CallableStatement testCmd = con.prepareCall("{call sp_tcCreateTest(?,?,?,?,?,?)}");
+				) {
+			int numRowAffected;
+			testCmd.registerOutParameter(1, Types.VARCHAR, "outid");
+			testCmd.setString(2, test.getName());
+			testCmd.setString(3, test.getTeacherID());
+			testCmd.setString(4, test.getStart());
+			testCmd.setString(5, test.getEnd());
+			testCmd.setInt(6, test.getDuration());		
+			numRowAffected = testCmd.executeUpdate();
+			if(numRowAffected > 0) {
+				String testID = testCmd.getString(1);
+				test.setId(testID);
+				return numRowAffected;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	private List<QuestionBean> getQuestions(Connection con, PartBean part) {
+		try(CallableStatement questionCmd = con.prepareCall("{call sp_tcLoadQuestionsOfPart(?)}")) {    //Xuat ra tat ca cac cau hoi cua mot phan
+			questionCmd.setString(1, part.getId());
+			try(ResultSet res = questionCmd.executeQuery()) {
+				List<QuestionBean> questions = new ArrayList<QuestionBean>();			//Luu tru cac cau hoi da lay ra tu csdl
+				while(res.next()) {
+					QuestionBean question = new QuestionBean();
+					question.setId(res.getString("mach"));
+					questions.add(question);
+				}
+				return questions;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private boolean addQuestionsToTest(Connection con, TestBean test, List<QuestionBean> selectedQuestions) {
+		try(CallableStatement addQuestionToTestCmd = con.prepareCall("{call sp_tcAddQuestionsToTest(?,?)}")) {
+			String partID = test.getId();
+			for(QuestionBean question : selectedQuestions) {
+				addQuestionToTestCmd.setString(1, question.getId());
+				addQuestionToTestCmd.setString(2, partID);
+				addQuestionToTestCmd.addBatch();
+			}
+			int[] results = addQuestionToTestCmd.executeBatch();
+			for(int result : results) {
+				if(result <= 0) {
+					return false;
+				}
+			}
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

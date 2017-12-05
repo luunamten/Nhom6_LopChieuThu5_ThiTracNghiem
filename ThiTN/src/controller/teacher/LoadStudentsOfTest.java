@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.DBConnection;
+import dao.TeacherUtil;
 import model.ClassBean;
 import model.StudentTestingBean;
 import model.TestBean;
@@ -53,38 +54,14 @@ public class LoadStudentsOfTest extends HttpServlet {
 			ClassBean _class = new ClassBean();
 			TestBean test = new TestBean();
 			List<StudentTestingBean> students;
+			TeacherUtil util = new TeacherUtil();
 			_class.setId(classID);
 			test.setId(testID);
-			students = this.getStudentstudents(_class, test);
+			students = util.getStudentstudents(_class, test);
 			if(students != null) {
 				request.setAttribute("students", students);
 				request.getRequestDispatcher("WEB-INF/teacher/tcStudentTableRows.jsp").forward(request, response);
 			}
 		}
 	}
-	
-	private List<StudentTestingBean> getStudentstudents(ClassBean _class, TestBean test) {
-		try(Connection con = DBConnection.getConnection();
-				CallableStatement studentsCmd = con.prepareCall("{call sp_tcLoadStudentsOfTest(?,?)}")) {
-			studentsCmd.setString(1, _class.getId());
-			studentsCmd.setString(2, test.getId());
-			try(ResultSet tesingsRes = studentsCmd.executeQuery()) {
-				List<StudentTestingBean> students = new ArrayList<StudentTestingBean>();
-				while(tesingsRes.next()) {
-					StudentTestingBean student = new StudentTestingBean();
-					student.setStudentID(tesingsRes.getString("mssv"));
-					student.setStudentName(tesingsRes.getString("hoten"));
-					student.setPoint(tesingsRes.getFloat("diemthi"));
-					student.setStart(tesingsRes.getString("ngaythi"));
-					students.add(student);
-				}
-				return students;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 }

@@ -25,35 +25,37 @@
 		<div class="col-sm-4">
 			<div class="card cs_card">
 				<div class="card-header bg-info text-white">
+					<c:set var="test" value="${requestScope.testDetails.test}" />
 					<h4>
-					${requestScope.test.id} - ${requestScope.test.name}
-					<input type="hidden" value="${requestScope.test.id}" id="test_id" />
+						${test.id} - ${test.name} <input
+							type="hidden" value="${test.id}" id="test_id" />
 					</h4>
 				</div>
 				<div class="card-body cs_card_body">
 					<p id="subject">
 						<strong>Môn: </strong> ${requestScope.subject.id } -
 						${requestScope.subject.name }
-						
+
 					</p>
+
 					<p id="total_time">
-						<strong>Thời gian: </strong> ${requestScope.test.duration} phút
+						<strong>Thời gian: </strong> ${test.duration} phút
 					</p>
 					<p id="num_question">
-						<strong>Số câu: </strong> ${requestScope.test.numQuestion}
+						<strong>Số câu: </strong> ${requestScope.testDetails.numQuestion}
 					</p>
 					<p id="create_time">
-						<strong>Thời gian tạo: </strong> ${requestScope.test.birth}
+						<strong>Thời gian tạo: </strong> ${test.birth}
 					</p>
 					<p id="start_time">
-						<strong>Thời gian bắt đầu: </strong> ${requestScope.test.start}
+						<strong>Thời gian bắt đầu: </strong> ${test.start}
 					</p>
 					<p id="end_time">
-						<strong>Thời gian kết thúc: </strong> ${requestScope.test.end}
+						<strong>Thời gian kết thúc: </strong> ${test.end}
 					</p>
 					<p id="num_sv">
 						<strong>Số sinh viên thi: </strong>
-						${requestScope.test.numStudent}
+						${requestScope.testDetails.numStudent}
 					</p>
 				</div>
 				<div class="card-footer">

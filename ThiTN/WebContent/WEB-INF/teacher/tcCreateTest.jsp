@@ -55,9 +55,9 @@
 								<label for="select_part">Chọn phần</label> <select
 									name="select_part" id="select_part" class="form-control"
 									required>
-									<c:if test="${not empty requestScope.parts }">
-										<c:forEach var="part" items="${requestScope.parts}">
-											<option value="${part.partID} ${part.numberOfQuestion }">${part.partName}</option>
+									<c:if test="${not empty requestScope.partAndNumQs }">
+										<c:forEach var="partAndNumQ" items="${requestScope.partAndNumQs}">
+											<option value="${partAndNumQ.part.id} ${partAndNumQ.numberOfQuestion }">${partAndNumQ.part.name}</option>
 										</c:forEach>
 									</c:if>
 								</select>
