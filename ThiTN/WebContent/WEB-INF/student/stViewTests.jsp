@@ -14,6 +14,7 @@
 <script src="bootstrap400/js/bootstrap.js"></script>
 <script src="bootstrap400/js/bootstrap.min.js"></script>
 <script src="bootstrap400/js/bootstrap.bundle.js"></script>
+<script src="js/stViewTest.js"></script>
 <title>Sinh viên</title>
 </head>
 <body>
@@ -35,8 +36,8 @@
 						<!--select subject-->
 						<div class="row">
 							<div class="form-group col-sm-4">
-								<label for="select_class">Chọn học kì</label> <select
-									name="select_class" id="select_class" class="form-control">
+								<label for="select_semester">Chọn học kì</label> <select
+									name="select_semester" id="select_semester" class="form-control">
 									<c:if test="${not empty requestScope.semesters }">
 										<c:forEach var="semester" items="${requestScope.semesters}">
 											<option value="${semester.id}">${semester.name}</option>
@@ -67,7 +68,7 @@
 									<th>Bắt đầu thi</th>
 									<th>Đã thi</th>
 									<th>Kết quả</th>
-									<th>Thao tác</th>
+									<th>Thi</th>
 								</tr>
 								</thead>
 								<tbody>
