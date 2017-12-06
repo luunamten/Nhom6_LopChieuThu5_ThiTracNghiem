@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dao.TeacherUtil;
+import dao.Util;
 import model.PartBean;
 import model.SubjectBean;
 
@@ -50,7 +50,7 @@ public class LoadPart extends HttpServlet {
 		String subjectID = request.getParameter("subjectID");
 		if(subjectID != null && !subjectID.trim().isEmpty()) {
 			SubjectBean bean = new SubjectBean();
-			TeacherUtil util = new TeacherUtil();
+			Util util = new Util();
 			ArrayList<PartBean> parts;
 			bean.setId(subjectID);
 			parts = util.getPartsOfSubject(bean);

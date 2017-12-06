@@ -1,7 +1,6 @@
-package controller.teacher;
+package controller.student;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -11,25 +10,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import dao.Util;
+import model.ClassBean;
 import model.LoginBean;
-import model.PartBean;
 import model.SemesterBean;
-import model.SubjectBean;
+import model.StudentBean;
+import model.TestingBean;
 
 /**
- * Servlet implementation class LoadSubject
+ * Servlet implementation class STViewTest
  */
-@WebServlet("/LoadSubject")
-public class LoadSubject extends HttpServlet {
+@WebServlet("/STViewTest")
+public class STViewTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LoadSubject() {
+	public STViewTest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -41,42 +40,54 @@ public class LoadSubject extends HttpServlet {
 		super.init(config);
 		try {
 			Class.forName(DRIVER);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		} catch(ClassNotFoundException exp) {
+			exp.printStackTrace();
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession ses = request.getSession();
+		HttpSession ses = request.getSession(false);
 		if(ses != null) {
 			LoginBean user = (LoginBean)ses.getAttribute("loginBean");
 			if(user != null) {
-				request.setCharacterEncoding("utf-8");
-				String semesterID = request.getParameter("semesterID");
-				if(!semesterID.equals("")) {
-					SemesterBean semester = new SemesterBean();
+				String userType = user.getUserType();
+				if(userType.equals("sv")) {
 					Util util = new Util();
-					List<SubjectBean> subjects;
-					semester.setId(semesterID);
-					subjects = util.getSubjectsOfSemester(user, semester);
-					if(subjects != null) {
-						request.setAttribute("items", subjects);
-						request.getRequestDispatcher("WEB-INF/common/List.jsp").forward(request, response);
+					List<SemesterBean> semesters = util.getAllSemesters();
+					if(semesters != null && semesters.size() > 0) {
+						List<ClassBean> classes = util.getStudentClasses(semesters.get(0), user);
+						System.out.println(classes.get(0).getName());
+						if(classes != null && classes.size() > 0) {
+							List<TestingBean> testings = 
+									util.getStudentTests(semesters.get(0), classes.get(0), user);
+							System.out.println(classes.size());
+							if(testings != null && testings.size() > 0) {
+								request.setAttribute("testings", testings);
+							}
+							request.setAttribute("classes", classes);
+						}
+						request.setAttribute("semesters", semesters);
 					}
+					request.getRequestDispatcher("WEB-INF/student/stViewTests.jsp").forward(request, response);
+				} else if(userType.equals("gv")) {
+					response.sendRedirect("Teacher");
 				}
+				return;
 			}
 		}
+		response.sendRedirect("Home");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
+
 
 }

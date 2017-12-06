@@ -12,9 +12,9 @@ MAMH varchar(255)
 public class ClassBean implements Serializable {
 	private String id;
 	private String name;
-	private String semesterID;
-	private String teacherID;
-	private String subjectID;
+	private SemesterBean semester;
+	private TeacherBean teacher;
+	private SubjectBean subject;
 	public String getId() {
 		return id;
 	}
@@ -27,23 +27,23 @@ public class ClassBean implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getSemesterID() {
-		return semesterID;
+	public SemesterBean getSemester() {
+		return semester;
 	}
-	public void setSemesterID(String semesterID) {
-		this.semesterID = semesterID;
+	public void setSemester(SemesterBean semester) {
+		this.semester = semester;
 	}
-	public String getTeacherID() {
-		return teacherID;
+	public TeacherBean getTeacher() {
+		return teacher;
 	}
-	public void setTeacherID(String teacherID) {
-		this.teacherID = teacherID;
+	public void setTeacher(TeacherBean teacher) {
+		this.teacher = teacher;
 	}
-	public String getSubjectID() {
-		return subjectID;
+	public SubjectBean getSubject() {
+		return subject;
 	}
-	public void setSubjectID(String subjectID) {
-		this.subjectID = subjectID;
+	public void setSubject(SubjectBean subject) {
+		this.subject = subject;
 	}
-	
+
 }

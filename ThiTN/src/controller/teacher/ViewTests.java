@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 
 import dao.DBConnection;
-import dao.TeacherUtil;
+import dao.Util;
 import model.LoginBean;
 import model.SemesterBean;
 import model.SubjectBean;
@@ -87,7 +87,7 @@ public class ViewTests extends HttpServlet {
 
 	private void loadPage(HttpServletRequest request, HttpServletResponse response, LoginBean user) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		TeacherUtil util = new TeacherUtil();
+		Util util = new Util();
 		List<SemesterBean> semesters = util.getAllSemesters();
 		if(semesters != null && semesters.size() > 0) {
 			List<SubjectBean> subjects = util.getSubjectsOfSemester(user, semesters.get(0));

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,52 +33,46 @@
 					<!--form-->
 					<form>
 						<!--select subject-->
-						<div class="form-group col-sm-4">
-							<label for="select_class">Chọn lớp</label> <select
-								name="select_class" id="select_class" class="form-control">
-								<option value="A">Lớp A</option>
-							</select>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label for="select_class">Chọn học kì</label> <select
+									name="select_class" id="select_class" class="form-control">
+									<c:if test="${not empty requestScope.semesters }">
+										<c:forEach var="semester" items="${requestScope.semesters}">
+											<option value="${semester.id}">${semester.name}</option>
+										</c:forEach>
+									</c:if>
+								</select>
+							</div>
+							<div class="form-group col-sm-4">
+								<label for="select_class">Chọn lớp</label> <select
+									name="select_class" id="select_class" class="form-control">
+									<c:if test="${not empty requestScope.classes }">
+										<c:forEach var="_class" items="${requestScope.classes}">
+											<option value="${_class.id}">${_class.name}</option>
+										</c:forEach>
+									</c:if>
+								</select>
+							</div>
 						</div>
 						<!--table showing tests-->
 						<div class="table-responsive-sm">
-							<table id="test_table"
+							<table id="testing_table"
 								class="table table-striped table-hover table-bordered">
+								<thead class="thead-dark">
 								<tr>
 									<th>STT</th>
 									<th>Mã bài thi</th>
+									<th>Tên bài thi</th>
 									<th>Bắt đầu thi</th>
 									<th>Đã thi</th>
 									<th>Kết quả</th>
 									<th>Thao tác</th>
 								</tr>
-								<tr>
-									<td>1</td>
-									<td>ENGLISH_TEST01</td>
-									<td>2017-11-11 7:00</td>
-									<td><span title="đã thi" class="material-icons">check_box</span></td>
-									<td>7đ</td>
-									<td><span title="thi" class="material-icons pointer_cur">border_color</span>
-										</a></td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>ENGLISH_TEST02</td>
-									<td>2017-11-17 7:00</td>
-									<td><span title="chưa thi" class="material-icons">check_box_outline_blank</span></td>
-									<td>0đ</td>
-									<td><a href="sv_deThiChiTiet.jsp"> <span title="thi"
-											class="material-icons pointer_cur">border_color</span>
-									</a></td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>ENGLISH_TEST03</td>
-									<td>2017-11-29 7:00</td>
-									<td><span title="đã thi" class="material-icons">check_box</span></td>
-									<td>10đ</td>
-									<td><span title="thi" class="material-icons pointer_cur">border_color</span>
-									</td>
-								</tr>
+								</thead>
+								<tbody>
+									<c:import url="stTestingTableRows.jsp" />
+								</tbody>
 							</table>
 						</div>
 						<!--hidden element for holding table data-->

@@ -5,7 +5,7 @@
 	  <a href="Student"
         class="list-group-item list-group-item-action list-group-item-secondary ${param.f1}">
         Thông tin sinh viên </a>
-      <a href="StViewTests" class="list-group-item list-group-item-action list-group-item-secondary ${param.f2}">
+      <a href="STViewTest" class="list-group-item list-group-item-action list-group-item-secondary ${param.f2}">
 		Xem các bài thi
 	  </a>
 </div>

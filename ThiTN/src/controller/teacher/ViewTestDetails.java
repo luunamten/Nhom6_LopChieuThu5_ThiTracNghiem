@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DBConnection;
-import dao.TeacherUtil;
+import dao.Util;
 import model.ClassBean;
 import model.LoginBean;
 import model.PartBean;
@@ -79,7 +79,7 @@ public class ViewTestDetails extends HttpServlet {
 					test.setId(testID);
 					testDetails.setTest(test);
 					if(this.getOneTest(testDetails)) {
-						TeacherUtil util = new TeacherUtil();
+						Util util = new Util();
 						List<ClassBean> classes = util.getClasses(semester, user, subject);
 						if(classes != null && classes.size() > 0) {
 							List<TestingBean> testings = util.getTestings(classes.get(0), test);

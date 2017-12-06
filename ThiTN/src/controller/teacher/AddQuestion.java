@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DBConnection;
-import dao.TeacherUtil;
+import dao.Util;
 import model.LoginBean;
 import model.PartBean;
 import model.QuestionBean;
@@ -58,7 +58,7 @@ public class AddQuestion extends HttpServlet {
 			if(bean != null) {
 				String userType = bean.getUserType();
 				if(userType.equals("gv")) {
-					TeacherUtil util = new TeacherUtil();
+					Util util = new Util();
 					List<SubjectBean> subjects = util.getAllSubjects();
 					if(subjects != null && subjects.size() > 0) {
 						List<PartBean> parts = util.getPartsOfSubject(subjects.get(0));

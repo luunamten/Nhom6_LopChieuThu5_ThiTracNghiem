@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DBConnection;
-import dao.TeacherUtil;
+import dao.Util;
 import model.LoginBean;
 import model.PartAndNumQuestionBean;
 import model.PartBean;
@@ -70,7 +70,7 @@ public class CreateTest extends HttpServlet {
 			if(bean != null) {
 				String userType = bean.getUserType();
 				if(userType.equals("gv")) {
-					TeacherUtil util = new TeacherUtil();
+					Util util = new Util();
 					List<SubjectBean> subjects = util.getCurrentSubjects(bean);
 					if(subjects != null && subjects.size() > 0) {
 						List<PartAndNumQuestionBean> partAndNumQs = util.getPartAndNumQuesion(subjects.get(0));

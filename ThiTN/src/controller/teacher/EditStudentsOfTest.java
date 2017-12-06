@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DBConnection;
-import dao.TeacherUtil;
+import dao.Util;
 import model.ClassBean;
 import model.LoginBean;
 import model.SemesterBean;
@@ -75,7 +75,7 @@ public class EditStudentsOfTest extends HttpServlet {
 						TestBean test = new TestBean();
 						SemesterBean semester = new SemesterBean();
 						SubjectBean subject = new SubjectBean();
-						TeacherUtil util = new TeacherUtil();
+						Util util = new Util();
 						List<ClassBean> classes;
 						test.setId(testID);
 						semester.setId(semesterID);

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.DBConnection;
-import dao.TeacherUtil;
+import dao.Util;
 import model.ClassBean;
 import model.TestingBean;
 import model.TestBean;
@@ -58,7 +58,7 @@ public class LoadStudentsOfTest extends HttpServlet {
 			ClassBean _class = new ClassBean();
 			TestBean test = new TestBean();
 			List<TestingBean> testings;
-			TeacherUtil util = new TeacherUtil();
+			Util util = new Util();
 			_class.setId(classID);
 			test.setId(testID);
 			testings = util.getTestings(_class, test);
