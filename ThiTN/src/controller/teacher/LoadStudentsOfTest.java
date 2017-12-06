@@ -61,7 +61,7 @@ public class LoadStudentsOfTest extends HttpServlet {
 			TeacherUtil util = new TeacherUtil();
 			_class.setId(classID);
 			test.setId(testID);
-			testings = util.getStudentsAndTest(test, _class);
+			testings = util.getTestings(_class, test);
 			if(testings != null) {
 				request.setAttribute("testings", testings);
 				request.getRequestDispatcher("WEB-INF/teacher/tcStudentTableRows.jsp").forward(request, response);

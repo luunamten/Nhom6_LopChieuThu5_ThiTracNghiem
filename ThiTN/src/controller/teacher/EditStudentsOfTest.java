@@ -84,13 +84,14 @@ public class EditStudentsOfTest extends HttpServlet {
 						if (classes.size() > 0) {
 							List<TestingBean> testings = util.getStudentsAndTest(test, classes.get(0));
 							if (testings.size() > 0) {
+								System.out.println(testID);
 								request.setAttribute("test", test);
 								request.setAttribute("subject", subject);
 								request.setAttribute("semester", semester);
 								request.setAttribute("classes", classes);
 								request.setAttribute("testings", testings);
 								request.getRequestDispatcher("WEB-INF/teacher/tcEditStudentsOfTest.jsp")
-										.forward(request, response);
+								.forward(request, response);
 							}
 						} 
 					}
@@ -126,22 +127,24 @@ public class EditStudentsOfTest extends HttpServlet {
 					for(int i = 0; i < numStudent; i++) {
 						StudentCheckBean check = new StudentCheckBean();
 						StudentBean student = new StudentBean();
-						student.setUsername(studentIDs[i]);
+						student.setUsername(studentIDs[i].trim());
 						check.setStudent(student);
-						check.setChecked((checkValues[i].equals("1"))?true:false);
+						check.setChecked((checkValues[i].trim().equals("1"))?true:false);
 						checks.add(check);
+						System.out.println(checks.get(i).getStudent().getUsername()+" | "+check.isChecked());
 					}
-					request.setAttribute("success", 
-							String.format("\u2713\u2713 Đã cập nhật %d sinh viên.", this.updateStudentsOfTest(checks, test)));
-					request.getRequestDispatcher("WEB-INF/teacher/tcEditStudentsOfTest.jsp").forward(request, response);
+					if( this.updateStudentsOfTest(checks, test)) {
+						request.setAttribute("success", "\u2713\u2713 Đã cập nhật.");
+						request.getRequestDispatcher("WEB-INF/teacher/tcEditStudentsOfTest.jsp").forward(request, response);
+					}
 				} else {
 					errors.append("> Lưu thất bại.<br />");
 				}
 			}
 		}
 	}
-	
-	private int updateStudentsOfTest(List<StudentCheckBean> checks, TestBean test) {
+
+	private boolean updateStudentsOfTest(List<StudentCheckBean> checks, TestBean test) {
 		try(Connection con = DBConnection.getConnection();
 				CallableStatement insCmd = con.prepareCall("{call sp_tcAddStudentsToTest(?,?)}");
 				CallableStatement delCmd = con.prepareCall("{call sp_tcDeleteStudentsFromTest(?,?)}");) {
@@ -162,25 +165,18 @@ public class EditStudentsOfTest extends HttpServlet {
 					delCmd.addBatch();
 				}
 			}
+			System.out.println(numIns);
 			if(numIns > 0) {
-				int[] insRows = insCmd.executeBatch();
-				numIns = 0;
-				for(int insRow : insRows) {
-					numIns += insRow;
-				}
+				insCmd.executeBatch();
 			}
 			if(numDel > 0) {
-				int[] delRows = delCmd.executeBatch();
-				numDel = 0;
-				for(int delRow : delRows) {
-					numDel += delRow;
-				}
+				delCmd.executeBatch();
 			}
 			con.commit();
-			return numDel + numIns;
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return false;
 	}
 }
