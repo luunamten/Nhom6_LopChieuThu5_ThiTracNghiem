@@ -15,6 +15,7 @@
 <script src="bootstrap400/js/bootstrap.js"></script>
 <script src="bootstrap400/js/bootstrap.min.js"></script>
 <script src="bootstrap400/js/bootstrap.bundle.js"></script>
+<script src="js/editTest.js"></script>
 <link rel="stylesheet" href="css/login.css" />
 <title>Giáo viên</title>
 </head>
@@ -23,12 +24,11 @@
 	<!--Chuc nang-->
 		<div class="col-md-5 container test_table_container">
 			<h3>Chỉnh sửa bài thi</h3>
-			<c:import url="../common/ReportSuccess.jsp" />
-			<c:import url="../common/ReportErrors.jsp" />
+			<div id="report_result"></div>
 			<hr />
 			<div class="card cs_card">
 				<div class="card-body cs_card_body">
-					<form method="post" action="EditTest">
+					<form method="post" action="EditTest" id="edit_form">
 						<!--test name-->
 						<c:set var="startDateTime" value="${fn:split(requestScope.test.start,' ')}" />
 						<c:set var="endDateTime" value="${fn:split(requestScope.test.end,' ')}" />
@@ -74,7 +74,7 @@
 						</div>
 						<!--send data button-->
 						<div class="form-group">
-							<input type="submit" id="send_but"
+							<input type="button" id="send_but"
 								class="btn btn-primary btn-block" value="Thay đổi" />
 						</div>
 					</form>

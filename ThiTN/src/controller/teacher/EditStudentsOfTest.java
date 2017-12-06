@@ -117,7 +117,9 @@ public class EditStudentsOfTest extends HttpServlet {
 				String[] checkValues = request.getParameterValues("check_value");
 				String[] studentIDs = request.getParameterValues("student_name");
 				String testID = request.getParameter("test_id");
-				StringBuilder errors = new StringBuilder();
+				for(String ss : checkValues) {
+				System.out.println(ss);
+				}
 				if(checkValues != null && checkValues.length != 0 && studentIDs != null && studentIDs.length != 0
 						&& testID != null && !testID.trim().isEmpty()) {
 					int numStudent = studentIDs.length;
@@ -131,14 +133,14 @@ public class EditStudentsOfTest extends HttpServlet {
 						check.setStudent(student);
 						check.setChecked((checkValues[i].trim().equals("1"))?true:false);
 						checks.add(check);
-						System.out.println(checks.get(i).getStudent().getUsername()+" | "+check.isChecked());
 					}
 					if( this.updateStudentsOfTest(checks, test)) {
 						request.setAttribute("success", "\u2713\u2713 Đã cập nhật.");
-						request.getRequestDispatcher("WEB-INF/teacher/tcEditStudentsOfTest.jsp").forward(request, response);
+						request.getRequestDispatcher("WEB-INF/common/ReportSuccess.jsp").forward(request, response);
 					}
 				} else {
-					errors.append("> Lưu thất bại.<br />");
+					request.setAttribute("errors", "> Cập nhật thất bại.");
+					request.getRequestDispatcher("WEB-INF/common/ReportErrors.jsp").forward(request, response);
 				}
 			}
 		}
@@ -165,7 +167,6 @@ public class EditStudentsOfTest extends HttpServlet {
 					delCmd.addBatch();
 				}
 			}
-			System.out.println(numIns);
 			if(numIns > 0) {
 				insCmd.executeBatch();
 			}

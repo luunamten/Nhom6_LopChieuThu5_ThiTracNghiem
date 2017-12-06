@@ -25,12 +25,11 @@
 	<!--Chuc nang-->
 		<div class="col-md-7 container test_table_container">
 			<h3>Các lớp và sinh viên thi</h3>
-			<c:import url="../common/ReportSuccess.jsp" />
-			<c:import url="../common/ReportErrors.jsp" />
+			<div id="report_result"></div>
 			<hr />
 			<div class="card cs_card">
 				<div class="card-body cs_card_body">
-					<form method="post" action="EditStudentsOfTest">
+					<form>
 						<input type="hidden" value="${requestScope.test.id}" name="test_id" /> 
 						<!--select subject-->
 						<div class="form-group col-sm-5">
@@ -44,9 +43,10 @@
 							</select>
 						</div>
 						<div class="form-group col-md-5">
-							<input type="submit" class="form-control btn btn-primary" id="edit_students_but" value="Lưu"/>
+							<input type="button" class="form-control btn btn-primary" id="edit_students_but" value="Lưu"/>
 						</div>
 						<!--table showing tests-->
+						<p id="report_load"></p>
 						<div class="table-responsive-sm">
 							<table id="testing_table"
 								class="table table-striped table-hover table-bordered">

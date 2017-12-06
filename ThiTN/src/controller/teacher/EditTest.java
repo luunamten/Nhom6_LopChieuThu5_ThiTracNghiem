@@ -150,7 +150,7 @@ public class EditTest extends HttpServlet {
 				} else {
 					test.setName(testName);
 				}
-				if(Pattern.matches("^[0-9]+$", strDuration)) {
+				if(strDuration == null || Pattern.matches("^[0-9]+$", strDuration)) {
 					duration = Integer.parseInt(strDuration);
 					if(duration < 10) {
 						isError = true;
@@ -165,6 +165,8 @@ public class EditTest extends HttpServlet {
 				if(!isError) {
 					if(this.editTest(test)) {
 						request.setAttribute("success", "\u2713\u2713Sửa thông tin bài thi thành công.");
+						request.getRequestDispatcher("WEB-INF/common/ReportSuccess.jsp").forward(request, response);
+						return;
 					} else {
 						errors.append("> Sửa thông tin bài thi thất bại.");
 						request.setAttribute("errors", errors);
@@ -172,13 +174,9 @@ public class EditTest extends HttpServlet {
 				} else {
 					request.setAttribute("errors", errors);
 				}
-				request.setAttribute("test", test);
-				request.getRequestDispatcher("WEB-INF/teacher/tcEditTest.jsp").forward(request, response);
-				return;
-			}
-			
+				request.getRequestDispatcher("WEB-INF/common/ReportErrors.jsp").forward(request, response);
+			}			
 		}
-		response.sendRedirect("Home");
 	}
 
 	private boolean editTest(TestBean test) {
