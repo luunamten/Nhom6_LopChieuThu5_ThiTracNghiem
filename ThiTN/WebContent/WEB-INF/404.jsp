@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1 style="text-align:center;">404 Không tìm thấy trang.</h1>
+	<h4 style="text-align:center;"><a href="Home">Quay lại trang chủ</a></h4>
 </body>
 </html>

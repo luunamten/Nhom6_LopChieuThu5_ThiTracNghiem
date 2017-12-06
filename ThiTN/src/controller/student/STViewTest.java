@@ -66,6 +66,7 @@ public class STViewTest extends HttpServlet {
 								request.setAttribute("testings", testings);
 							}
 							request.setAttribute("classes", classes);
+							request.setAttribute("_class", classes.get(0));
 						}
 						request.setAttribute("semesters", semesters);
 					}

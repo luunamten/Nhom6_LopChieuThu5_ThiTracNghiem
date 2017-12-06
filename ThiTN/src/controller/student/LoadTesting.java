@@ -71,6 +71,7 @@ public class LoadTesting extends HttpServlet {
 						List<TestingBean> testings = 
 								util.getStudentTests(semester, _class, user);
 						if(testings != null && testings.size() > 0) {
+							request.setAttribute("_class", _class);
 							request.setAttribute("testings", testings);
 							request.getRequestDispatcher("WEB-INF/student/stTestingTableRows.jsp").forward(request, response);
 						}

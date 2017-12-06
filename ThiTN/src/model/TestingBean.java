@@ -8,8 +8,16 @@ public class TestingBean implements Serializable {
 	private String answers;
 	private String testContent;
 	private int numCorrect;
+	private boolean commit;
 	private StudentBean student;
 	private TestBean test;
+	
+	public boolean isCommit() {
+		return commit;
+	}
+	public void setCommit(boolean commit) {
+		this.commit = commit;
+	}
 	public float getPoint() {
 		return point;
 	}

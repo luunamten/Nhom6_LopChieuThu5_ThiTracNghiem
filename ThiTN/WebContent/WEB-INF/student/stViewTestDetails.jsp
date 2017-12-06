@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,22 +20,50 @@
 	<%--Banner --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<!--Thong` tin de thi-->
-	<div id="test_info_container" class="container col-sm-4">
+	<c:set var="testInfo" value="${requestScope.testInfo}" />
+	<c:set var="testing" value="${testInfo.testing}" />
+	<c:set var="test" value="${testing.test }" />
+	<c:set var="subject" value="${testInfo.subject }" />
+	<div id="test_info_container" class="container col-lg-5">
 		<div class="card cs_card">
 			<div class="card-header text-white bg-info">
-				<h4 id="test_name">ENGLISH_TEST01</h4>
+				<h4 id="test_name">${test.id} - ${test.name }</h4>
 			</div>
+
 			<div class="card-body cs_card_body">
-				<p id="subject">Môn: Anh văn 1</p>
-				<p id="start_time">Thời gian bắt đầu thi: 17-11-2017 07:00</p>
-				<p id="total_time">Thời gian: 15 phút</p>
-				<p id="number_question">Số câu: 15</p>
-				<p id="test_state">Tình trạng: Chưa thi</p>
+				<div class="table-responsive-lg">
+					<table class="table table-hover">
+						<tr>
+							<td><strong>Môn:</strong></td>
+							<td>${subject.id} - ${subject.name}</td>
+						</tr>
+						<tr>
+							<td><strong>Bắt đầu thi:</strong></td>
+							<td>${test.start }</td>
+						</tr>
+						<tr>
+							<td><strong>Thời gian:</strong></td>
+							<td>${test.duration } phút</td>
+						</tr>
+						<tr>
+							<td><strong>Thời hạn:</strong></td>
+							<td>${test.end }</td>
+						</tr>
+						<tr>
+							<td><strong>Số câu:</strong></td>
+							<td>${testInfo.numQuestion }</td>
+						</tr>
+						<tr>
+							<td><strong>Tình trạng:</strong></td>
+							<td>${test.start }</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 			<div class="card-footer">
 				<a href="sinhVien.jsp">
 					<button id="back_to_tests" class="btn btn-outline-danger">
-					&lt;&lt;Trở về</button>
+						&lt;&lt;Trở về</button>
 				</a> <a href="thi.jsp">
 					<button id="forward_to_test" class="btn btn-outline-danger">Thi
 						>></button>
