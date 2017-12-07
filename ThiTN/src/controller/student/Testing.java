@@ -165,7 +165,6 @@ public class Testing extends HttpServlet {
 			}
 		}
 	}
-	
 
 	private void viewTesting(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -223,6 +222,21 @@ public class Testing extends HttpServlet {
 		return null;
 	}
 
+	private boolean getTesting(TestBean test, LoginBean user) {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement testingCmd = con.prepareCall("{sp_stLoadTesting(?,?)}")) {
+			testingCmd.setString(1, test.getId());
+			testingCmd.setString(2, user.getUsername());
+			try(ResultSet testingRes = testingCmd.executeQuery()) {
+				if(testingRes.next()) {
+					
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	private boolean getTest(TestBean test) {
 		try(Connection con = DBConnection.getConnection();
