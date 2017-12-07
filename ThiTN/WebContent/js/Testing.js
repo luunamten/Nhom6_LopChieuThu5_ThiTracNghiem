@@ -15,7 +15,7 @@ $(document).ready(function() {
 			}
 		});
 	})
-	
+
 	function loop() {
 		$.ajax({
 			url: 'UpdateTime',
@@ -31,6 +31,5 @@ $(document).ready(function() {
 		});
 		timeout = setTimeout(loop, 500);
 	}
-	
 	loop();
 });

@@ -47,6 +47,12 @@
 								<td><span id="time_remaining"></span></td>
 							</tr>
 							<tr>
+								<td><strong>Tổng số câu::</strong>
+									
+								</td>
+								<td><span id="total_question">${testingInfo.totalPage }</span></td>
+							</tr>
+							<tr>
 						</table>
 					</div>
 				</div>

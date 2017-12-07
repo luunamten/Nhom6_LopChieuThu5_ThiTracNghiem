@@ -156,8 +156,7 @@ public class Testing extends HttpServlet {
 			TestBean test, LoginBean user) throws ServletException, IOException {
 		boolean res = this.getTest(test);
 		if(res) {
-			HttpSession ses = request.getSession(true);
-			ses.setAttribute("test", test);
+			HttpSession ses = request.getSession(true);	
 			if(this.saveStartTesting(user, test) > 0) {
 				AnswerBean answers = new AnswerBean();
 				StudentTestingBean testingInfo = this.getTestingInfo(test, user);
@@ -169,6 +168,7 @@ public class Testing extends HttpServlet {
 				request.setAttribute("question", test.getQuestions().get(0));
 				ses.setAttribute("answers", answers);
 				ses.setAttribute("testingInfo", testingInfo);
+				ses.setAttribute("test", test);
 				request.getRequestDispatcher("WEB-INF/student/stTesting.jsp").forward(request, response);
 			}
 		}
@@ -289,7 +289,7 @@ public class Testing extends HttpServlet {
 				QuestionBean question = questions.get(questionMap[i]);
 				int[] answerMap = question.getMapAnswers();
 				testData.append(
-						String.format("[{0},{1},{2},{3},{4},{5}]",
+						String.format("[%d,%d,%d,%d,%d,%d]",
 		                        questionMap[i], question.getMapCorrectIndex(),
 		                        answerMap[0], answerMap[1], answerMap[2], answerMap[3]));
 			}
