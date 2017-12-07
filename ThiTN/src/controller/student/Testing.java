@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import controller.Login;
 import dao.DBConnection;
+import model.AnswerBean;
 import model.ClassBean;
 import model.LoginBean;
 import model.QuestionBean;
@@ -118,7 +120,8 @@ public class Testing extends HttpServlet {
 										current.after(start) && current.before(end)	) {
 									//Bat dau thi
 									System.out.println("bat dau thi");
-									this.testing(request, response, test);
+									this.testing(request, response, test, user);
+									
 
 								} else if(!commit && isTested && cld1.compareTo(cld2) < 1) {
 									//Tiep tuc thi
@@ -149,11 +152,20 @@ public class Testing extends HttpServlet {
 		}
 		response.sendRedirect("Home");
 	}
-	private void testing(HttpServletRequest request, HttpServletResponse response, TestBean test)
-			throws ServletException, IOException {
+	private void testing(HttpServletRequest request, HttpServletResponse response,
+			TestBean test, LoginBean user) throws ServletException, IOException {
 		boolean res = this.getTest(test);
-		System.out.println(res);
+		if(res) {
+			HttpSession ses = request.getSession(true);
+			ses.setAttribute("test", test);
+			if(this.saveStartTesting(user, test) > 0) {
+				AnswerBean answers = new AnswerBean();
+				answers.setTest(test);		
+				ses.setAttribute("answers", answers);
+			}
+		}
 	}
+	
 
 	private void viewTesting(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -259,6 +271,37 @@ public class Testing extends HttpServlet {
 		}
 		return false;
 	}
+	
+	private int saveStartTesting(LoginBean user, TestBean test) {
+		try(Connection con = DBConnection.getConnection();
+				CallableStatement saveCmd = con.prepareCall("{call sp_stSaveStartTesting(?,?,?)}");) {
+			List<QuestionBean> questions = test.getQuestions();
+			StringBuilder testData = new StringBuilder();
+			int[] questionMap = test.getMapQuestions();
+			int numQuestion = questions.size();
+			for(int i = 0; i <numQuestion; i++) {
+				QuestionBean question = questions.get(questionMap[i]);
+				int[] answerMap = question.getMapAnswers();
+				testData.append(
+						String.format("[{0},{1},{2},{3},{4},{5}]",
+		                        questionMap[i], question.getMapCorrectIndex(),
+		                        answerMap[0], answerMap[1], answerMap[2], answerMap[3]));
+			}
+			saveCmd.setString(1, test.getId());
+			saveCmd.setString(2, user.getUsername());
+			saveCmd.setString(3, testData.toString());
+			return saveCmd.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	private void saveTest(TestBean test) {
+		
+	}
+
 	
 	//Xap xep thu tu ngau nhien cac cau hoi cua mot bai thi
     private void randomQuestions(SecureRandom rand, int[] mapIndex)

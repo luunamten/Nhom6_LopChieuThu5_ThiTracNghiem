@@ -25,7 +25,6 @@ import model.TestingBean;
 public class LoadTesting extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */

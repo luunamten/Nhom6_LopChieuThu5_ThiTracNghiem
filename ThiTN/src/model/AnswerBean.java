@@ -8,6 +8,7 @@ public class AnswerBean {
 	}
 	public void setTest(TestBean test) {
 		this.test = test;
+		this.answerIndex = new int[this.test.getMapQuestions().length];
 	}
 	public int[] getAnswerIndex() {
 		return answerIndex;
@@ -15,5 +16,4 @@ public class AnswerBean {
 	public void setAnswerIndex(int[] answerIndex) {
 		this.answerIndex = answerIndex;
 	} 
-	
 }
