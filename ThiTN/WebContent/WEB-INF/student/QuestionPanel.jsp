@@ -11,25 +11,25 @@
 	<div class="card-body cs_card_body">
 		<div class="radio">
 			<label> <input type="radio" name="answer" id="ans-1"
-				value="by" /><span id="ans-a"> ${question.answers[amap[0]]}</span>
+				value="0" /><span id="ans-a"> ${question.answers[amap[0]]}</span>
 			</label>
 		</div>
 		<hr />
 		<div class="radio">
 			<label> <input type="radio" name="answer" id="ans-2"
-				value="of" /><span id="ans-b"> ${question.answers[amap[1]]}</span>
+				value="1" /><span id="ans-b"> ${question.answers[amap[1]]}</span>
 			</label>
 		</div>
 		<hr />
 		<div class="radio">
 			<label> <input type="radio" name="answer" id="ans-3"
-				value="do" /><span id="ans-c"> ${question.answers[amap[2]]}</span>
+				value="2" /><span id="ans-c"> ${question.answers[amap[2]]}</span>
 			</label>
 		</div>
 		<hr />
 		<div class="radio">
 			<label> <input type="radio" name="answer" id="ans-4"
-				value="go" /><span id="ans-d"> ${question.answers[amap[3]]}</span>
+				value="3" /><span id="ans-d"> ${question.answers[amap[3]]}</span>
 			</label>
 		</div>
 	</div>

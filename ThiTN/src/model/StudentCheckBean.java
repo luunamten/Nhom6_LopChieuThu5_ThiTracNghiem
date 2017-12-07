@@ -17,5 +17,4 @@ public class StudentCheckBean implements Serializable {
 	public void setChecked(boolean checked) {
 		this.checked = checked;
 	}
-	
 }

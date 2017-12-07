@@ -16,6 +16,19 @@ $(document).ready(function() {
 		});
 	})
 
+	$(document).on('change','input[name=answer]', function() {
+		$.ajax({
+			url:'ChangeAnswer',
+			async: false,
+			type:'GET',
+			data: {
+				aindex:$(this).val()
+			},
+			success:function() {
+				
+			}
+		});
+	})
 	function loop() {
 		$.ajax({
 			url: 'UpdateTime',

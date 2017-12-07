@@ -48,7 +48,6 @@
 							</tr>
 							<tr>
 								<td><strong>Tổng số câu::</strong>
-									
 								</td>
 								<td><span id="total_question">${testingInfo.totalPage }</span></td>
 							</tr>
@@ -57,8 +56,10 @@
 					</div>
 				</div>
 				<div class="card-footer">
-					<button type="button" class="btn btn-block btn-primary"
+				<form method="post" action="EndTest">
+					<button type="submit" class="btn btn-block btn-primary"
 						id="end_test_but">Nộp bài</button>
+						</form>
 				</div>
 			</div>
 		</div>

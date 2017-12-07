@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import model.AnswerBean;
 import model.LoginBean;
+import model.StudentTestingBean;
 
 /**
  * Servlet implementation class ChangeAnswer
@@ -55,13 +56,13 @@ public class ChangeAnswer extends HttpServlet {
 				String userType = user.getUserType();
 				if(userType.equals("sv")) {
 					String answerIndex = request.getParameter("aindex");
-					String questionIndex = request.getParameter("qindex");
-					if(questionIndex != null && Pattern.matches("^[0-9]+$", questionIndex) &&
-							answerIndex != null && Pattern.matches("^[0-9]+$", answerIndex)) {
-						int qindex = Integer.parseInt(questionIndex);
+					StudentTestingBean testingInfo = (StudentTestingBean)ses.getAttribute("testingInfo");
+					int qIndex = testingInfo.getPageIndex();
+					if(answerIndex != null && Pattern.matches("^[0-9]+$", answerIndex)) {
 						int aindex = Integer.parseInt(answerIndex);
 						AnswerBean answers = (AnswerBean)ses.getAttribute("answers");
-						answers.getAnswerIndex()[qindex] = aindex;
+						answers.getAnswerIndex()[qIndex] = aindex;
+						System.out.println(answerIndex);
 					}
 				}
 			}

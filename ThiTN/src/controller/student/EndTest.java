@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import dao.DBConnection;
 import model.AnswerBean;
 import model.LoginBean;
+import model.QuestionBean;
 import model.TestBean;
 import model.TestingBean;
 
@@ -58,7 +60,28 @@ public class EndTest extends HttpServlet {
 			if(user != null) {
 				String userType = user.getUserType();
 				if(userType.equals("sv")) {
-					
+					int numCorrect = 0;
+					TestBean test = (TestBean)ses.getAttribute("test");
+					AnswerBean answers = (AnswerBean)ses.getAttribute("answers");
+					List<QuestionBean> questions = test.getQuestions();
+					TestingBean testing = new TestingBean();
+					int[] answerArr = answers.getAnswerIndex();
+					int numQuestion = answerArr.length;
+					float point = 0;
+					StringBuilder answerString = new StringBuilder();
+					for(int i = 0; i < numQuestion; i++) {
+						if(questions.get(i).getMapCorrectIndex() == answerArr[i]) {
+							numCorrect ++;	
+						}
+						answerString.append(String.format("[%d]", answerArr[i]));
+					}
+					point = Math.round((numCorrect*1.0 / numQuestion) * 10.00);
+					testing.setTest(test);
+					testing.setPoint(point);
+					testing.setNumCorrect(numCorrect);
+					testing.setAnswers(answerString.toString());
+					this.endTest(testing, user);
+					request.getRequestDispatcher("STViewTest").forward(request, response);
 				}
 			}
 		}
@@ -68,7 +91,11 @@ public class EndTest extends HttpServlet {
 		try(Connection con = DBConnection.getConnection();
 				CallableStatement cmd = con.prepareCall("{call sp_stEndtest(?,?,?,?,?)}")) {
 			cmd.setString(1, testing.getTest().getId());
-			
+			cmd.setString(2, user.getUsername());
+			cmd.setFloat(3, testing.getPoint());
+			cmd.setInt(4, testing.getNumCorrect());
+			cmd.setString(5, testing.getAnswers());
+			return cmd.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
