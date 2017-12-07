@@ -54,10 +54,6 @@
 							<td><strong>Số câu:</strong></td>
 							<td>${testInfo.numQuestion }</td>
 						</tr>
-						<tr>
-							<td><strong>Tình trạng:</strong></td>
-							<td>${test.start }</td>
-						</tr>
 					</table>
 				</div>
 			</div>

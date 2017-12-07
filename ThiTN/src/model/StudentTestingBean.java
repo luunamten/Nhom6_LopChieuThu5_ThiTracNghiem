@@ -4,9 +4,15 @@ public class StudentTestingBean {
 	private int totalDuration;
 	private int pageIndex;
 	private int totalPage;
-	private String timeRemaing;
+	private String timeRemaining;
 	private String start;
 	
+	public String getTimeRemaining() {
+		return timeRemaining;
+	}
+	public void setTimeRemaining(String timeRemaining) {
+		this.timeRemaining = timeRemaining;
+	}
 	public String getStart() {
 		return start;
 	}
@@ -30,12 +36,6 @@ public class StudentTestingBean {
 	}
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
-	}
-	public String getTimeRemaing() {
-		return timeRemaing;
-	}
-	public void setTimeRemaing(String timeRemaing) {
-		this.timeRemaing = timeRemaing;
 	}
 	
 }

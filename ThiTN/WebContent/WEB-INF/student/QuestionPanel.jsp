@@ -36,7 +36,7 @@
 	<div class="card-footer">
 		<div class="form-inline">
 			<label for="page_val_to">Trang</label> <input type="number"
-				class="form-control" min="1" max="${testingInfo.totalPage })" value="${testingInfo.pageIndex + 1 }"
+				class="form-control" min="1" max="${testingInfo.totalPage }" value="${testingInfo.pageIndex + 1 }"
 				id="page_val_to" name="page_val_to" />
 			<button type="button" class="btn btn-outline-danger" id="page_to2">>></button>
 		</div>

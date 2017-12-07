@@ -173,7 +173,7 @@ public class Testing extends HttpServlet {
 			}
 		}
 	}
-
+	
 	private void viewTesting(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

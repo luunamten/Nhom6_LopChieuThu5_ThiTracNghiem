@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	var timeout;
 	$(document).on('click','#page_to2',function() {
 		$.ajax({
 			url: 'ChangeQuestion',
@@ -14,4 +15,22 @@ $(document).ready(function() {
 			}
 		});
 	})
+	
+	function loop() {
+		$.ajax({
+			url: 'UpdateTime',
+			type:'GET',
+			async:false,
+			success:function(content, status) {
+				if(content == "00:00:00") {
+
+				} else if(content.trim() != '') {
+					$('#time_remaining').html(content);
+				}
+			}
+		});
+		timeout = setTimeout(loop, 500);
+	}
+	
+	loop();
 });

@@ -41,8 +41,10 @@
 								<td>${test.duration }phút</td>
 							</tr>
 							<tr>
-								<td><strong>Thời gian còn lại:</strong></td>
-								<td></td>
+								<td><strong>Thời gian còn lại:</strong>
+									
+								</td>
+								<td><span id="time_remaining"></span></td>
 							</tr>
 							<tr>
 						</table>
@@ -50,7 +52,7 @@
 				</div>
 				<div class="card-footer">
 					<button type="button" class="btn btn-block btn-primary"
-						id="end_test">Nộp bài</button>
+						id="end_test_but">Nộp bài</button>
 				</div>
 			</div>
 		</div>
