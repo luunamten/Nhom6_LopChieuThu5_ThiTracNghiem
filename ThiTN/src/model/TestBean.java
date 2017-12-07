@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class TestBean implements Serializable  {
 	private String id;
@@ -10,7 +11,23 @@ public class TestBean implements Serializable  {
 	private String end;
 	private String teacherID;
 	private int duration;
-
+	private List<QuestionBean> questions;
+	private int[] mapQuestions;
+	
+	public List<QuestionBean> getQuestions() {
+		return questions;
+	}
+	public void setQuestions(List<QuestionBean> questions) {
+		this.questions = questions;
+		mapQuestions = new int[questions.size()];
+	}
+	
+	public int[] getMapQuestions() {
+		return mapQuestions;
+	}
+	public void setMapQuestions(int[] mapQuestions) {
+		this.mapQuestions = mapQuestions;
+	}
 	public String getId() {
 		return id;
 	}

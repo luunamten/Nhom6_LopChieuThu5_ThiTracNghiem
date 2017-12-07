@@ -72,6 +72,7 @@ public class STLoadTestDetails extends HttpServlet {
 						_class.setId(classID);
 						testInfo = this.getTestingInfo(_class, test, user);
 						if(testInfo != null) {
+							request.setAttribute("_class", _class);
 							request.setAttribute("testInfo", testInfo);
 							request.getRequestDispatcher("WEB-INF/student/stViewTestDetails.jsp").forward(request, response);
 							return;

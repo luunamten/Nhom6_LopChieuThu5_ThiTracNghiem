@@ -17,7 +17,8 @@ import model.LoginBean;
 @WebServlet("/StViewTestDetails")
 public class StViewTestDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,8 +31,12 @@ public class StViewTestDetails extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
 		super.init(config);
+		try {
+			Class.forName(DRIVER);
+		} catch(ClassNotFoundException exp) {
+			exp.printStackTrace();
+		}
 	}
 
 	/**

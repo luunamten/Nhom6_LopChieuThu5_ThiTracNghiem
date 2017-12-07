@@ -25,6 +25,7 @@
 	<c:set var="test" value="${testing.test }" />
 	<c:set var="subject" value="${testInfo.subject }" />
 	<div id="test_info_container" class="container col-lg-5">
+		<c:import url="../common/ReportErrors.jsp" />
 		<div class="card cs_card">
 			<div class="card-header text-white bg-info">
 				<h4 id="test_name">${test.id} - ${test.name }</h4>
@@ -61,13 +62,15 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				<a href="sinhVien.jsp">
+				<a href="STViewTest">
 					<button id="back_to_tests" class="btn btn-outline-danger">
 						&lt;&lt;Trở về</button>
-				</a> <a href="thi.jsp">
-					<button id="forward_to_test" class="btn btn-outline-danger">Thi
-						>></button>
 				</a>
+				<form method="post" action="Testing">
+				<input type="hidden" value="${requestScope._class.id}" name="class_id" /> 
+				<input type="hidden" value="${test.id}" name="test_id" /> 
+					<input type="submit" id="forward_to_test" class="btn btn-outline-danger" value="Thi >>" />
+				</form>
 			</div>
 		</div>
 	</div>

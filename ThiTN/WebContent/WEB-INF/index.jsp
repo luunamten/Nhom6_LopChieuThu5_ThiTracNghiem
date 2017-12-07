@@ -38,11 +38,6 @@
 				<form method="post" action="Home">
 					<div class="radio">
 						<label> <input type="radio" name="qt_gv_sv" value="gv" />
-							Quản trị
-						</label>
-					</div>
-					<div class="radio">
-						<label> <input type="radio" name="qt_gv_sv" value="gv" />
 							Giảng viên
 						</label>
 					</div>
