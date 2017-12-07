@@ -126,7 +126,7 @@ public class Testing extends HttpServlet {
 								} else if(!commit && isTested && cld1.compareTo(cld2) < 1) {
 									//Tiep tuc thi
 									System.out.println("tiep");
-
+										
 								} else if(current.before(start) && !isTested) {
 									//Chua den luc thi
 									this.beforeStart(request, response, _class, testInfo);
