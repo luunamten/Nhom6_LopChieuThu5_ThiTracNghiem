@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:if test="${empty sessionScope.loginBean or sessionScope.loginBean.userType != 'sv'}">
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:if
+	test="${empty sessionScope.loginBean or sessionScope.loginBean.userType != 'sv'}">
 	<c:redirect url="index.jsp" />
 </c:if>
 <!DOCTYPE html>
@@ -16,70 +17,83 @@
 <script src="jquery/jquery321.js"></script>
 <script src="bootstrap400/js/popper.min.js"></script>
 <script src="bootstrap400/js/bootstrap.min.js"></script>
+<script src="js/Testing.js"></script>
 <title>Làm bài thi</title>
 </head>
 <body>
-  <%--Banner --%>
+	<%--Banner --%>
 	<c:import url="../common/header.jsp" />
-  <div id="testing_container" class="row">
-    <div class="col-sm-3">
-      <div class="card cs_card">
-        <div class="card-header bg-info text-white">
-          <h4>ENGLISH01_TEST</h4>
-        </div>
-        <div class="card-body cs_card_body">
-          <p id="subject">Môn: Anh văn 1</p>
-          <p id="total_time">Tổng thời gian: 15:00</p>
-          <p id="num_question">Số câu: 15
-          <hr />
-          <p id="time_rem">Thời gian còn lại: 5:00</p>
-          <p id="sv_name">Sinh viên: Lưu Nam</p>
-        </div>
-        <div class="card-footer">
-          <button type="button" class="btn btn-block btn-primary" id="end_test">Nộp bài</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="card cs_card">
-        <div class="card-header bg-info text-white">
-          <p id="question">1. He always fascinated ... eggs</p>
-        </div>
-        <div class="card-body cs_card_body">
-           <div class="radio">
-            <label> <input type="radio" name="answer" id="ans-1" value="by" /><span id="ans-a"> by</span>
-            </label>
-          </div>
-          <hr />
-          <div class="radio">
-            <label> <input type="radio" name="answer" id="ans-2" value="of" /><span id="ans-b"> of</span>
-            </label>
-          </div>
-          <hr />
-          <div class="radio">
-            <label> <input type="radio" name="answer" id="ans-3" value="do" /><span id="ans-c"> do</span>
-            </label>
-          </div>
-          <hr />
-          <div class="radio">
-            <label> <input type="radio" name="answer" id="ans-4" value="go" /><span id="ans-d"> go</span>
-            </label>
-          </div>
-        </div>
-        <div class="card-footer">
-          <div id="forward_to_test">
-            <button type="button" class="btn btn-outline-danger" id="page_prev">&lt;&lt;</button>
-            <span id="page_num">Trang 1</span>
-            <button type="button" class="btn btn-outline-danger" id="page_to">>></button>
-          </div>
-          <div class="form-inline">
-            <label for="page_val_to">Trang</label>
-            <input type="number" class="form-control" min="1" max="15" value="1" id="page_val_to" name="page_val_to" />
-            <button type="button" class="btn btn-outline-danger" id="page_to">>></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<c:set var="test" value="${sessionScope.test }" />
+	<c:set var="testingInfo" value="${sessionScope.testingInfo }" />
+	<c:set var="question" value="${requestScope.question }" />
+	<c:set var="amap" value="${question.mapAnswers }" />
+	<div id="testing_container" class="row">
+		<div class="col-sm-3">
+			<div class="card cs_card">
+				<div class="card-header bg-info text-white">
+					<h4>${test.id} - ${test.name }</h4>
+				</div>
+				<div class="card-body cs_card_body">
+					<div class="table-responsive-lg">
+						<table class="table table-hover">
+							<tr>
+								<td><strong>Tổng thời gian:</strong></td>
+								<td>${test.duration }phút</td>
+							</tr>
+							<tr>
+								<td><strong>Thời gian còn lại:</strong></td>
+								<td></td>
+							</tr>
+							<tr>
+						</table>
+					</div>
+				</div>
+				<div class="card-footer">
+					<button type="button" class="btn btn-block btn-primary"
+						id="end_test">Nộp bài</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<div class="card cs_card" id="question_panel">
+				<div class="card-header bg-info text-white">
+					<p id="question">${question.content}</p>
+				</div>
+				<div class="card-body cs_card_body">
+					<div class="radio">
+						<label> <input type="radio" name="answer" id="ans-1"
+							value="by" /><span id="ans-a"> ${question.answers[amap[0]]}</span>
+						</label>
+					</div>
+					<hr />
+					<div class="radio">
+						<label> <input type="radio" name="answer" id="ans-2"
+							value="of" /><span id="ans-b"> ${question.answers[amap[1]]}</span>
+						</label>
+					</div>
+					<hr />
+					<div class="radio">
+						<label> <input type="radio" name="answer" id="ans-3"
+							value="do" /><span id="ans-c"> ${question.answers[amap[2]]}</span>
+						</label>
+					</div>
+					<hr />
+					<div class="radio">
+						<label> <input type="radio" name="answer" id="ans-4"
+							value="go" /><span id="ans-d"> ${question.answers[amap[3]]}</span>
+						</label>
+					</div>
+				</div>
+				<div class="card-footer">
+					<div class="form-inline">
+						<label for="page_val_to">Trang</label> <input type="number"
+							class="form-control" min="1" max="${testingInfo.totalPage }" value="1" id="page_val_to"
+							name="page_val_to" />
+						<button type="button" class="btn btn-outline-danger" id="page_to2">>></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

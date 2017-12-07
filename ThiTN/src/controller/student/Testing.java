@@ -29,6 +29,7 @@ import model.AnswerBean;
 import model.ClassBean;
 import model.LoginBean;
 import model.QuestionBean;
+import model.StudentTestingBean;
 import model.SubjectBean;
 import model.TestBean;
 import model.TestingBean;
@@ -121,8 +122,7 @@ public class Testing extends HttpServlet {
 									//Bat dau thi
 									System.out.println("bat dau thi");
 									this.testing(request, response, test, user);
-									
-
+									return;
 								} else if(!commit && isTested && cld1.compareTo(cld2) < 1) {
 									//Tiep tuc thi
 									System.out.println("tiep");
@@ -160,8 +160,16 @@ public class Testing extends HttpServlet {
 			ses.setAttribute("test", test);
 			if(this.saveStartTesting(user, test) > 0) {
 				AnswerBean answers = new AnswerBean();
-				answers.setTest(test);		
+				StudentTestingBean testingInfo = this.getTestingInfo(test, user);
+				List<QuestionBean> questions = test.getQuestions();
+				answers.setTest(test);
+				testingInfo.setTotalPage(questions.size());
+				testingInfo.setPageIndex(0);
+				testingInfo.setTotalDuration(test.getDuration());
+				request.setAttribute("question", test.getQuestions().get(0));
 				ses.setAttribute("answers", answers);
+				ses.setAttribute("testingInfo", testingInfo);
+				request.getRequestDispatcher("WEB-INF/student/stTesting.jsp").forward(request, response);
 			}
 		}
 	}
@@ -220,22 +228,6 @@ public class Testing extends HttpServlet {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	private boolean getTesting(TestBean test, LoginBean user) {
-		try(Connection con = DBConnection.getConnection();
-				CallableStatement testingCmd = con.prepareCall("{sp_stLoadTesting(?,?)}")) {
-			testingCmd.setString(1, test.getId());
-			testingCmd.setString(2, user.getUsername());
-			try(ResultSet testingRes = testingCmd.executeQuery()) {
-				if(testingRes.next()) {
-					
-				}
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	private boolean getTest(TestBean test) {
@@ -392,5 +384,22 @@ public class Testing extends HttpServlet {
         return newCorrectIndex;
     }
 
-
+    private StudentTestingBean getTestingInfo(TestBean test, LoginBean user) {
+    	try(Connection con = DBConnection.getConnection();
+    			CallableStatement cmd = con.prepareCall("{call sp_stLoadTesting(?,?)}")) {
+    		cmd.setString(1, test.getId());
+    		cmd.setString(2, user.getUsername());
+    		try(ResultSet res = cmd.executeQuery()) {
+    			if(res.next()) {
+    				StudentTestingBean testing = new StudentTestingBean();
+    				testing.setStart(res.getString("ngaythi"));
+    				return testing;
+    			}
+    		}
+    	} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    }
 }
