@@ -1,7 +1,9 @@
 package controller.student;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.ServletConfig;
@@ -21,14 +23,14 @@ import model.StudentTestingBean;
 @WebServlet("/UpdateTime")
 public class UpdateTime extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateTime() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UpdateTime() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -49,11 +51,7 @@ public class UpdateTime extends HttpServlet {
 			if(user != null) {
 				String userType = user.getUserType();
 				if(userType.equals("sv")) {
-					StudentTestingBean testingInfo = (StudentTestingBean)ses.getAttribute("testingInfo");
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-					int duration = testingInfo.getTotalDuration();
-					Date start = formatter.parse( testingInfo.getStart());
+					
 					/*
 					 	declare @miliseconds int;
 	declare @seconds varchar(2);
@@ -83,7 +81,7 @@ public class UpdateTime extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
-	
+
+
 
 }
