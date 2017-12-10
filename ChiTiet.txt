@@ -1,0 +1,4 @@
+Tai khoan sinh vien: sv01 1
+Tai khoan giang vien: gv09 9
+
+Trang vao dau tien /Home (Servlet Login)
